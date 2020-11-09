@@ -22,14 +22,14 @@ import java.io.IOException;
 @Configuration
 public class SchedulerConfig {
 
-    private static JobDetailFactoryBean createJobDetail(Class<? extends Job> jobClass) {
+    public static JobDetailFactoryBean createJobDetail(Class<? extends Job> jobClass) {
         JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
         factoryBean.setJobClass(jobClass);
         factoryBean.setDurability(false);
         return factoryBean;
     }
 
-    private static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long pollFrequencyMs,
+    public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long pollFrequencyMs,
                                                           int repeatCount) {
         SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
