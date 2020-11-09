@@ -1,11 +1,12 @@
 package br.com.wod.quartz.service;
 
 import br.com.wod.quartz.dto.SchedulerConfigParam;
+import br.com.wod.quartz.dto.TimeDTO;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
+import org.quartz.spi.MutableTrigger;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 
@@ -20,13 +21,6 @@ public class EnelSpScheduleService {
 
     @Resource
     private TriggerMonitor triggerMonitor;
-
-    /*
-    public void startJob() throws SchedulerException {
-        scheduler.start();
-        scheduler.scheduleJob(enelJob, simpleSchedule);
-    }
-    */
 
     public void startJob() throws SchedulerException {
         log.info("SCHEDULER - START COMMAND");
@@ -46,6 +40,50 @@ public class EnelSpScheduleService {
         scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
         triggerMonitor.setTrigger(newTrigger);
         return config;
+    }
+
+    public void myJobTaskConfig() throws SchedulerException {
+        SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
+
+        TriggerBuilder<SimpleTrigger> triggerBuilder = trigger.getTriggerBuilder();
+
+        Trigger newTrigger = triggerBuilder
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withRepeatCount(5)
+                        .withIntervalInSeconds(3))
+                .build();
+
+        scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+        triggerMonitor.setTrigger(newTrigger);
+    }
+
+    public void dailyHourByHourJobConfig(TimeDTO timeDTO) throws SchedulerException {
+        SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
+
+        TriggerBuilder<SimpleTrigger> triggerBuilder = trigger.getTriggerBuilder();
+
+        Trigger newTrigger = triggerBuilder
+                .startNow()
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withIntervalInHours(timeDTO.getHour())
+                        .repeatForever())
+                .build();
+
+        scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+        triggerMonitor.setTrigger(newTrigger);
+
+    }
+
+    public void dailyJobConfig(TimeDTO timeDTO) throws SchedulerException {
+        SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
+
+        Trigger newTrigger = DailyTimeIntervalScheduleBuilder.dailyTimeIntervalSchedule()
+                .startingDailyAt(TimeOfDay.hourAndMinuteOfDay(timeDTO.getHour(), timeDTO.getMinute()))
+                .build();
+
+        scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+        triggerMonitor.setTrigger(newTrigger);
+
     }
 
     private long fromMillsIntervalToTriggerPerDay(long repeatIntervalInMills) {

@@ -10,18 +10,14 @@ import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
 import java.io.IOException;
-import java.util.Properties;
 
 @Configuration
 public class SchedulerConfig {
@@ -69,8 +65,8 @@ public class SchedulerConfig {
 
     @Bean(name = "jobTrigger")
     public SimpleTriggerFactoryBean sampleJobTrigger(@Qualifier("jobDetail") JobDetail jobDetail
-                                                     ) {
-        return createTrigger(jobDetail, 10L, 5);
+    ) {
+        return createTrigger(jobDetail, 10000L, 5);
     }
 
     @Bean(name = "triggerMonitor")

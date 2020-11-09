@@ -1,6 +1,7 @@
 package br.com.wod.quartz.resource;
 
 import br.com.wod.quartz.dto.SchedulerConfigParam;
+import br.com.wod.quartz.dto.TimeDTO;
 import br.com.wod.quartz.service.EnelSpScheduleService;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,19 @@ public class EnelSpScheduleResource {
     @ResponseStatus(HttpStatus.CREATED)
     public SchedulerConfigParam postConfig(@RequestBody SchedulerConfigParam configParam) throws SchedulerException {
         return service.postConfig(configParam);
+    }
+
+    @PostMapping("/myconfig")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void changeCongig() throws SchedulerException {
+        service.myJobTaskConfig();
+    }
+
+
+    @PostMapping("/dailyconfig")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void dailyCongig(@RequestBody TimeDTO time) throws SchedulerException {
+        service.dailyJobConfig(time);
     }
 
 }
