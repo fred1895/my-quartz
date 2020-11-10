@@ -32,36 +32,86 @@ Usarei o endpoint da enel pra exemplificar. [Clique aqui para ver a camada de co
 `GET {baseUrl}/start`</br>
 Inicia o job selecionado. Se não for feita nenhuma configuração de tempo, inicial com o agendamento default de execução a cada 10 segundos infinitamente.</br>
 Status 200 
+</br>
+</br>
+`GET {baseUrl}/pause`</br>
+Pausa o Job selecionado</br>
+Status 200 
+</br>
+</br>
+`GET {baseUrl}/resume`</br>
+Reinicia o Job selecionado caso o tenha pausado</br>
+Status 200 
+</br>
+</br>
+`GET {baseUrl}/delete`</br>
+Deleta o Job selecionado. MUITO CUIDADO!</br>
+Status 200 
+</br>
+</br>
+### Endpoints de configuração
+Para esses endpoints sera necessario passar um DTO no corpo da requisição. <br>
+ATENÇÃO. NÃO SERÁ NESSÁRIO SEMPRE PASSAR TODAS AS PROPRIEDADES. SERÁ DE ACORDO COM O ENDPOINT.
+```
+{
+    "hour": 10,
+    "minute": 10,
+    "second": 10
+}
+```
+<br>
+`POST {baseUrl}/config/dia`</br>
+São passados hora e minuto para o Job ser executado uma unica vez por dia no horario escolhido. Padrão 24h.
+```
+{
+    "hour": 10,
+    "minute": 30
+}
+```
+O Job será executado todo dia às 10:30.
+</br>
+Status 201
+</br>
+</br>
 
-## PADRÃO MVC
-O padrão mais utilizado pelo mercado é o *Model-View-Controller(MVC)*. </br>
-Imagine se cada um resolvesse fazer uma aplicação com suas próprias regras? Quem trabalhasse junto ficaria maluco. O MVC veio justamente pra isso. Padronizar o modo
-como as aplicações são feitas. Obs: Não confunda com Design Patterns.</br>
-Neste padrão a aplicação back-end fica dividida em camadas, como exemplificado na imagem abaixo:
-<img align="center" alt="Padrao MVC" src="doc/imgs/padrao_mvc.png?raw=true" />
-## Menu
-* [Camada de domínio](#camada-de-dominio)
-* [Camada de acesso a dados](#camada-de-acesso-a-dados)
-* [Camada de serviço](#camada-de-servico)
-* [Controladores REST](#controladores-rest)
+`POST {baseUrl}/config/hora`</br>
+É passado a hora para o Job ser executado com o intervalo de tempo informado. Padrão 24h.
+```
+{
+    "hour": 2
+}
+```
+O Job será executado todo dia de 2h em 2h.
+</br>
+Status 201
+</br>
+</br>
 
-### Camada de dominio 
-Camada onde estarão as entidades e outras classes responsáveis pela implementação do negócio. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus laoreet nisl at finibus. Vivamus convallis aliquet diam et eleifend. Fusce ut euismod magna, sed dapibus nunc. Fusce iaculis, nulla eget ullamcorper posuere, nisl ligula malesuada erat, at lacinia mauris massa ut neque. Nulla vitae risus at urna volutpat finibus ut nec magna. Nulla sit amet lorem porttitor, mollis libero eu, porttitor turpis. Nullam sit amet nisi eu velit egestas volutpat ac ac sem. Aliquam egestas, justo a lacinia tempus, felis turpis venenatis nunc, a varius velit mauris id ante. Suspendisse nisl magna.
+`POST {baseUrl}/config/minuto`</br>
+É passado os minutos para o Job ser executado com o intervalo de tempo informado.
+```
+{
+    "minute": 30
+}
+```
+O Job será executado todo dia de 30min em 30min.
+</br>
+Status 201
+</br>
+</br>
 
-### Camada de acesso a dados 
-Camada onde estará a classe(interface) responsavel por fazer a conexão direta com o banco de dados 
+`POST {baseUrl}/config/segundo`</br>
+É passado os segundos para o Job ser executado com o intervalo de tempo informado.
+```
+{
+    "second": 40
+}
+```
+O Job será executado todo dia de 40s em 40s.
+</br>
+Status 201
+</br>
+</br>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus laoreet nisl at finibus. Vivamus convallis aliquet diam et eleifend. Fusce ut euismod magna, sed dapibus nunc. Fusce iaculis, nulla eget ullamcorper posuere, nisl ligula malesuada erat, at lacinia mauris massa ut neque. Nulla vitae risus at urna volutpat finibus ut nec magna. Nulla sit amet lorem porttitor, mollis libero eu, porttitor turpis. Nullam sit amet nisi eu velit egestas volutpat ac ac sem. Aliquam egestas, justo a lacinia tempus, felis turpis venenatis nunc, a varius velit mauris id ante. Suspendisse nisl magna, vulputate id risus rhoncus, congue varius tellus. Sed pellentesque quam sed nunc tristique commodo. Cras non est risus. Vestibulum nec nulla vitae ipsum interdum pellentesque.
-
-### Camada de servico 
-Camada que aplicará todas as regras de negócio 
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus laoreet nisl at finibus. Vivamus convallis aliquet diam et eleifend. Fusce ut euismod magna, sed dapibus nunc. Fusce iaculis, nulla eget ullamcorper posuere, nisl ligula malesuada erat, at lacinia mauris massa ut neque. Nulla vitae risus at urna volutpat finibus ut nec magna. Nulla sit amet lorem porttitor, mollis libero eu, porttitor turpis. Nullam sit amet nisi eu velit egestas volutpat ac ac sem. Aliquam egestas, justo a lacinia tempus, felis turpis venenatis nunc, a varius velit mauris id ante. Suspendisse nisl magna, vulputate id risus rhoncus, congue varius tellus. Sed pellentesque quam sed nunc tristique commodo. Cras non est risus. Vestibulum nec nulla vitae ipsum interdum pellentesque.
-
-### Controladores REST
-Camada que expões os endpoints necessários para a aplicação cliente fazer as requisições HTTP necessárias
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus laoreet nisl at finibus. Vivamus convallis aliquet diam et eleifend. Fusce ut euismod magna, sed dapibus nunc. Fusce iaculis, nulla eget ullamcorper posuere, nisl ligula malesuada erat, at lacinia mauris massa ut neque. Nulla vitae risus at urna volutpat finibus ut nec magna. Nulla sit amet lorem porttitor, mollis libero eu, porttitor turpis. Nullam sit amet nisi eu velit egestas volutpat ac ac sem. Aliquam egestas, justo a lacinia tempus, felis turpis venenatis nunc, a varius velit mauris id ante. Suspendisse nisl magna, vulputate id risus rhoncus, congue varius tellus. Sed pellentesque quam sed nunc tristique commodo. Cras non est risus. Vestibulum nec nulla vitae ipsum interdum pellentesque.
 
