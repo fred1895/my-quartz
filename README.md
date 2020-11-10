@@ -7,7 +7,7 @@ ATENÇÃO: O PROJETO ESTÁ RODANDO NA PORTA 8090
 #CLONE
 git clone https://github.com/fred1895/my-quartz.git
 
-# START QUARTZ-MANAGER-WEB
+# START MY-QUARTZ
 cd my-quartz
 mvn install
 mvn spring-boot:run
