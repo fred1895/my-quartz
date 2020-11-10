@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
 public class TimeDTO {
     private Integer hour;
     private Integer minute;
+    private Integer second;
 }

@@ -1,5 +1,5 @@
 server:
   port: 8090
-job:
-  frequency: 10L
-  repeatCount: 5
+error:
+  myscheduler:
+    msg: Erro ao agendar Job;

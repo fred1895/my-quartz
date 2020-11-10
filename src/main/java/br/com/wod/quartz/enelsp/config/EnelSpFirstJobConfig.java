@@ -1,6 +1,7 @@
-package br.com.wod.quartz.config;
+package br.com.wod.quartz.enelsp.config;
 
-import br.com.wod.quartz.jobs.MyJob;
+import br.com.wod.quartz.config.JobConfig;
+import br.com.wod.quartz.enelsp.jobs.EnelSpFirstJob;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import br.com.wod.quartz.schedule.TriggerMonitorImpl;
 import org.quartz.JobDetail;
@@ -15,23 +16,23 @@ import static br.com.wod.quartz.config.SchedulerConfigUtil.createJobDetail;
 import static br.com.wod.quartz.config.SchedulerConfigUtil.createTrigger;
 
 @Configuration
-public class EnelSpJobConfig implements JobConfig {
+public class EnelSpFirstJobConfig implements JobConfig {
 
     @Override
-    @Bean(name = "jobDetail")
+    @Bean(name = "enelFirstJob")
     public JobDetailFactoryBean jobDetail() {
-        return createJobDetail(MyJob.class);
+        return createJobDetail(EnelSpFirstJob.class);
     }
 
     @Override
-    @Bean(name = "jobTrigger")
-    public SimpleTriggerFactoryBean sampleJobTrigger(@Qualifier("jobDetail") JobDetail jobDetail) {
-        return createTrigger(jobDetail, 10000L, 5);
+    @Bean(name = "enelFirstJobTrigger")
+    public SimpleTriggerFactoryBean sampleJobTrigger(@Qualifier("enelFirstJob") JobDetail jobDetail) {
+        return createTrigger(jobDetail);
     }
 
     @Override
-    @Bean(name = "triggerMonitor")
-    public TriggerMonitor createTriggerMonitor(@Qualifier("jobTrigger") Trigger trigger) {
+    @Bean(name = "enelFirstJobTriggerMonitor")
+    public TriggerMonitor createTriggerMonitor(@Qualifier("enelFirstJobTrigger") Trigger trigger) {
         TriggerMonitor triggerMonitor = new TriggerMonitorImpl();
         triggerMonitor.setTrigger(trigger);
         return triggerMonitor;
