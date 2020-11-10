@@ -1,17 +1,37 @@
-# SIMPLE CRUD
+# QUARTZ SCHEDULE COM MULTIPLOS JOBS
+Repositório em Spring  usando QUARTZ SCHEDULE agendando e customizando Jobs.
+</br>
+## Como rodar?
+ATENÇÃO: O PROJETO ESTÁ RODANDO NA PORTA 8090
+```
+#CLONE
+git clone https://github.com/fred1895/my-quartz.git
 
-Este repositório foi criado para aquele que querem um exemplo bem básico de um CRUD feito com Spring boot. Para compreender da melhor maneira a aplicação, é necessário pelo menos um conhecimento intermediário em Java. Mas mesmo com um conhecimento básico, com um pouco de esforço você consegue entender. </br>
+# START QUARTZ-MANAGER-WEB
+cd my-quartz
+mvn install
+mvn spring-boot:run
 
-## O QUE É UM CRUD?
-CRUD são as quatro operações básicas utilizadas em bases de dados relacionais fornecidas aos utilizadores do sistema. Abreviação de: </br>  
-*__Create__*: Ação de criar algo novo no banco de dados.
+Ou rode diretamente na IDE
+Precisa mudar a variavel de ambiente para local
+
+```
+
+## Endpoints
+O projeto possui 4 jobs de 2 empresas diferentes. Elas estão padronizadas assim: </br>
+### Base URL
+`http://localhost:8090/{nomeDaEmpresa}/job/{numJob}`  
+*__{nomeDaEmpresa}__*: O nome da empresa, exemplo: enelsp, cpfl...
 </br>
-*__Read__*: Ação de ler algum dado já existente no banco de dados.
+*__{numJob}__*: O nome que irá identificar qual job respectivo para a empresa passada na Query. Exemplo: first, second...
 </br>
-*__Update__*: Ação de atualizar algum dado/informação vinda do banco de dados 
 </br>
-*__Delete__*: Acão de deletar algum dado/informação já existente no banco de dados.
-</br>
+
+## Exemplo
+Usarei o endpoint da enel pra exemplificar
+`GET {baseUrl}/start`
+Inicia o job selecionado. Se não for feita nenhuma configuração de tempo, inicial com o agendamento default de execução a cada 10 segundos infinitamente.
+Status 200 
 
 ## PADRÃO MVC
 O padrão mais utilizado pelo mercado é o *Model-View-Controller(MVC)*. </br>
