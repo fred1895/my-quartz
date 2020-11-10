@@ -5,7 +5,6 @@ import br.com.wod.quartz.dto.TimeDTO;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.quartz.spi.MutableTrigger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,11 +19,15 @@ public class EnelSpScheduleService {
     private Scheduler scheduler;
 
     @Resource
+    private JobDetail jobDetail;
+
+    @Resource
     private TriggerMonitor triggerMonitor;
 
     public void startJob() throws SchedulerException {
         log.info("SCHEDULER - START COMMAND");
         scheduler.start();
+        scheduler.scheduleJob(jobDetail, triggerMonitor.getTrigger());
     }
 
     public SchedulerConfigParam postConfig(SchedulerConfigParam config) throws SchedulerException {
