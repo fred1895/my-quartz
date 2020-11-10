@@ -28,9 +28,9 @@ O projeto possui 4 jobs de 2 empresas diferentes. Elas estão padronizadas assim
 </br>
 
 ## Exemplo
-Usarei o endpoint da enel pra exemplificar
-`GET {baseUrl}/start`
-Inicia o job selecionado. Se não for feita nenhuma configuração de tempo, inicial com o agendamento default de execução a cada 10 segundos infinitamente.
+Usarei o endpoint da enel pra exemplificar </br>
+`GET {baseUrl}/start`</br>
+Inicia o job selecionado. Se não for feita nenhuma configuração de tempo, inicial com o agendamento default de execução a cada 10 segundos infinitamente.</br>
 Status 200 
 
 ## PADRÃO MVC
