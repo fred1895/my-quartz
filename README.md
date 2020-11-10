@@ -60,6 +60,7 @@ ATENÇÃO. NÃO SERÁ NESSÁRIO SEMPRE PASSAR TODAS AS PROPRIEDADES. SERÁ DE AC
 }
 ```
 <br>
+
 `POST {baseUrl}/config/dia`</br>
 São passados hora e minuto para o Job ser executado uma unica vez por dia no horario escolhido. Padrão 24h.
 ```
