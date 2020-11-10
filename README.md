@@ -2,7 +2,7 @@
 Repositório em Spring  usando QUARTZ SCHEDULE agendando e customizando Jobs.
 </br>
 ## Como rodar?
-ATENÇÃO: O PROJETO ESTÁ RODANDO NA PORTA 8090
+**ATENÇÃO: O PROJETO ESTÁ RODANDO NA PORTA 8090**
 ```
 #CLONE
 git clone https://github.com/fred1895/my-quartz.git
