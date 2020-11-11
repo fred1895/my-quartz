@@ -16,6 +16,36 @@ Ou rode diretamente na IDE
 Precisa mudar a variavel de ambiente para local
 
 ```
+# Todos os Jobs
+Nesse endpoint terão serviços para inicar, pausar e reiniciar todos os jobs. <br> 
+ATENÇÃO: Use apenas esse Endpoint se você não tiver iniciado nenhum Job ainda.
+
+## Base URL
+{baseUrl}: `http://localhost:8090/all-jobs`  </br>
+[Clique aqui para ver a camada de controller](https://github.com/fred1895/my-quartz/blob/master/src/main/java/br/com/wod/quartz/resource/AllJobsResource.java) 
+</br>
+
+`GET {baseUrl}/start`</br>
+Inicia todos os jobs. Se não for feita nenhuma configuração de tempo antes, inicia com o agendamento default de execução a cada 10 segundos infinitamente.</br>
+Status 200 
+</br>
+</br>
+
+`GET {baseUrl}/pause`</br>
+Pausa todos os jobs que foram iniciados</br>
+Status 200 
+</br>
+</br>
+
+
+`GET {baseUrl}/resume`</br>
+Reinicia todos os jobs pausados</br>
+Status 200 
+</br>
+</br>
+
+
+# Jobs específicos
 
 ## Endpoints
 O projeto possui 4 jobs de 2 empresas diferentes. Elas estão padronizadas assim: </br>
