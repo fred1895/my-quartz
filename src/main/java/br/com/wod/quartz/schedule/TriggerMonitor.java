@@ -4,8 +4,8 @@ import org.quartz.Trigger;
 
 public interface TriggerMonitor {
 
-	void setTrigger(Trigger trigger);
+    void setTrigger(Trigger trigger);
 
-	Trigger getTrigger();
+    Trigger getTrigger();
 
 }

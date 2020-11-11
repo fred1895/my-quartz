@@ -1,6 +1,5 @@
 package br.com.wod.quartz.resource;
 
-import br.com.wod.quartz.cpfl.service.CpflFirstJobService;
 import br.com.wod.quartz.cpfl.service.CpflSecondJobService;
 import br.com.wod.quartz.dto.TimeDTO;
 import org.springframework.beans.factory.annotation.Autowired;

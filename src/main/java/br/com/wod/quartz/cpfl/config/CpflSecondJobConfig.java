@@ -2,7 +2,6 @@ package br.com.wod.quartz.cpfl.config;
 
 import br.com.wod.quartz.config.JobConfig;
 import br.com.wod.quartz.cpfl.jobs.CpflFirstJob;
-import br.com.wod.quartz.cpfl.jobs.CpflSecondJob;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import br.com.wod.quartz.schedule.TriggerMonitorImpl;
 import org.quartz.JobDetail;

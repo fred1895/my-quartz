@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Data
 @Component
 public class TimeDTO implements Serializable {
+
     @JsonProperty("hour")
     private Integer hour;
 

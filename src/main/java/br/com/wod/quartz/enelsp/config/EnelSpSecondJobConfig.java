@@ -27,7 +27,6 @@ public class EnelSpSecondJobConfig implements JobConfig {
     @Value("${enelsp.second-job.description}")
     private String jobDescription;
 
-
     @Override
     @Bean(name = "enelSecondJob")
     public JobDetailFactoryBean jobDetail() {
