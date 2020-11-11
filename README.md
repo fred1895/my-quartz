@@ -7,8 +7,10 @@ Repositório em Spring  usando QUARTZ SCHEDULE agendando e customizando Jobs.
 * [Jobs especificos](#jobs-espicificos)
 
 </br>
+
 # Como rodar?
 **ATENÇÃO: O PROJETO ESTÁ RODANDO NA PORTA 8090**
+
 ```
 #CLONE
 git clone https://github.com/fred1895/my-quartz.git
@@ -22,6 +24,7 @@ Ou rode diretamente na IDE
 Precisa mudar a variavel de ambiente para local
 
 ```
+
 # Todos os Jobs
 Nesse endpoint terão serviços para inicar, pausar e reiniciar todos os jobs. <br> 
 ATENÇÃO: Use apenas esse Endpoint se você não tiver iniciado nenhum Job ainda.
