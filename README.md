@@ -6,8 +6,6 @@ Repositório em Spring  usando QUARTZ SCHEDULE agendando e customizando Jobs.
 * [Todos os Jobs](#todos-os-jobs)
 * [Jobs especificos](#jobs-espicificos)
 
-</br>
-
 # Como rodar?
 **ATENÇÃO: O PROJETO ESTÁ RODANDO NA PORTA 8090**
 
