@@ -34,21 +34,25 @@ Usarei o endpoint da enel pra exemplificar. [Clique aqui para ver a camada de co
 {baseUrl}: `http://localhost:8090/enelsp/job/first`
 
 </br>
+
 `GET {baseUrl}/start`</br>
 Inicia o job selecionado. Se não for feita nenhuma configuração de tempo antes, inicia com o agendamento default de execução a cada 10 segundos infinitamente.</br>
 Status 200 
 </br>
 </br>
+
 `GET {baseUrl}/pause`</br>
 Pausa o Job selecionado</br>
 Status 200 
 </br>
 </br>
+
 `GET {baseUrl}/resume`</br>
 Reinicia o Job selecionado caso o tenha pausado</br>
 Status 200 
 </br>
 </br>
+
 `GET {baseUrl}/delete`</br>
 Deleta o Job selecionado. MUITO CUIDADO!</br>
 Status 200 
