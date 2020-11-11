@@ -25,6 +25,8 @@ Precisa mudar a variavel de ambiente para local
 
 ```
 
+[Voltar ao menu](#menu)
+
 # Todos os Jobs
 Nesse endpoint terão serviços para inicar, pausar e reiniciar todos os jobs. <br> 
 ATENÇÃO: Use apenas esse Endpoint se você não tiver iniciado nenhum Job ainda.
@@ -53,6 +55,7 @@ Status 200
 </br>
 </br>
 
+[Voltar ao menu](#menu)
 
 # Jobs especificos
 
@@ -163,4 +166,5 @@ Status 201
 </br>
 </br>
 
+[Voltar ao menu](#menu)
 
