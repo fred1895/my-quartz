@@ -1,8 +1,10 @@
 package br.com.wod.quartz.cpfl.service;
 
+import br.com.wod.quartz.dto.JobInfoDTO;
 import br.com.wod.quartz.dto.TimeDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
+import br.com.wod.quartz.service.JobsBasicService;
 import br.com.wod.quartz.service.SchedulerBaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -21,6 +23,9 @@ public class CpflFirstJobService implements SchedulerBaseService {
     private Scheduler scheduler;
 
     @Autowired
+    private JobsBasicService basicService;
+
+    @Autowired
     @Qualifier("cpflFirstJob")
     private JobDetail jobDetail;
 
@@ -32,47 +37,28 @@ public class CpflFirstJobService implements SchedulerBaseService {
     private String errorMsg;
 
     @Override
+    public JobInfoDTO getJobInfo() {
+        return basicService.getInfo(scheduler, jobDetail);
+    }
+
+    @Override
     public void startJob() {
-        log.info("SCHEDULER - START COMMAND");
-        try {
-            scheduler.start();
-            scheduler.scheduleJob(jobDetail, triggerMonitor.getTrigger());
-        } catch (SchedulerException e) {
-            throw new MySchedulerException(errorMsg + e.getMessage());
-        }
+        basicService.start(scheduler, jobDetail, triggerMonitor);
     }
 
     @Override
     public void resumeJob() {
-        JobKey jobKey = jobDetail.getKey();
-        log.info("SCHEDULER - RESUME COMMAND");
-        try {
-            scheduler.resumeJob(jobKey);
-        } catch (SchedulerException e) {
-            throw new MySchedulerException(errorMsg + e.getMessage());
-        }
+        basicService.resume(scheduler, jobDetail);
     }
 
     @Override
     public void pauseJob() {
-        JobKey jobKey = jobDetail.getKey();
-        log.info("SCHEDULER - PAUSE COMMAND");
-        try {
-            scheduler.pauseJob(jobKey);
-        } catch (SchedulerException e) {
-            throw new MySchedulerException(errorMsg + e.getMessage());
-        }
+        basicService.pause(scheduler, jobDetail);
     }
 
     @Override
     public void deleteJob() {
-        JobKey jobKey = jobDetail.getKey();
-        log.info("SCHEDULER - DELETE COMMAND");
-        try {
-            scheduler.deleteJob(jobKey);
-        } catch (SchedulerException e) {
-            throw new MySchedulerException(errorMsg + e.getMessage());
-        }
+        basicService.delete(scheduler, jobDetail);
     }
 
     @Override

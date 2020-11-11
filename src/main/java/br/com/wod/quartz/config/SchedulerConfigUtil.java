@@ -15,6 +15,19 @@ public class SchedulerConfigUtil {
         return factoryBean;
     }
 
+    public static JobDetailFactoryBean setInfo(
+            JobDetailFactoryBean jobDetail,
+            String jobName,
+            String jobGroup,
+            String jobDescription) {
+
+        jobDetail.setName(jobName);
+        jobDetail.setGroup(jobGroup);
+        jobDetail.setDescription(jobDescription);
+
+        return jobDetail;
+    }
+
     public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail) {
         SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);

@@ -7,21 +7,31 @@ import br.com.wod.quartz.schedule.TriggerMonitorImpl;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import static br.com.wod.quartz.config.SchedulerConfigUtil.createJobDetail;
-import static br.com.wod.quartz.config.SchedulerConfigUtil.createTrigger;
+import static br.com.wod.quartz.config.SchedulerConfigUtil.*;
 
 @Configuration
 public class CpflFirstJobConfig implements JobConfig {
 
+    @Value("${cpfl.first-job.name}")
+    private String jobName;
+
+    @Value("${cpfl.first-job.group}")
+    private String jobGroup;
+
+    @Value("${cpfl.first-job.description}")
+    private String jobDescription;
+
     @Override
     @Bean(name = "cpflFirstJob")
     public JobDetailFactoryBean jobDetail() {
-        return createJobDetail(CpflFirstJob.class);
+        JobDetailFactoryBean jobDetail = createJobDetail(CpflFirstJob.class);
+        return setInfo(jobDetail, jobName, jobGroup, jobDescription);
     }
 
     @Override

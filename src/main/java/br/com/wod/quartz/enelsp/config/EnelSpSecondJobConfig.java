@@ -7,21 +7,32 @@ import br.com.wod.quartz.schedule.TriggerMonitorImpl;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
-import static br.com.wod.quartz.config.SchedulerConfigUtil.createJobDetail;
-import static br.com.wod.quartz.config.SchedulerConfigUtil.createTrigger;
+import static br.com.wod.quartz.config.SchedulerConfigUtil.*;
 
 @Configuration
 public class EnelSpSecondJobConfig implements JobConfig {
 
+    @Value("${enelsp.second-job.name}")
+    private String jobName;
+
+    @Value("${enelsp.second-job.group}")
+    private String jobGroup;
+
+    @Value("${enelsp.second-job.description}")
+    private String jobDescription;
+
+
     @Override
     @Bean(name = "enelSecondJob")
     public JobDetailFactoryBean jobDetail() {
-        return createJobDetail(EnelSpSecondJob.class);
+        JobDetailFactoryBean jobDetail = createJobDetail(EnelSpSecondJob.class);
+        return setInfo(jobDetail, jobName, jobGroup, jobDescription);
     }
 
     @Override

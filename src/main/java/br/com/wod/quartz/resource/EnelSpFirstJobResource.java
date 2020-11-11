@@ -1,5 +1,6 @@
 package br.com.wod.quartz.resource;
 
+import br.com.wod.quartz.dto.JobInfoDTO;
 import br.com.wod.quartz.dto.TimeDTO;
 import br.com.wod.quartz.enelsp.service.EnelSpFirstJobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,12 @@ public class EnelSpFirstJobResource {
 
     @Autowired
     private EnelSpFirstJobService service;
+
+    @GetMapping("/info")
+    @ResponseStatus(HttpStatus.OK)
+    public JobInfoDTO getInfo() {
+        return service.getJobInfo();
+    }
 
     @GetMapping("/start")
     @ResponseStatus(HttpStatus.OK)

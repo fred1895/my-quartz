@@ -2,4 +2,22 @@ server:
   port: 8090
 error:
   myscheduler:
-    msg: Erro ao agendar Job;
+    msg: Erro ao agendar Job ->
+enelsp:
+  first-job:
+    name: Enel SP first job
+    group: EnelSp
+    description: Primeiro exemplo de job vindo da Enel Sao Paulo rodando
+  second-job:
+    name: Enel SP second job
+    group: EnelSp
+    description: Segundo exemplo de job vindo da Enel Sao Paulo rodando
+cpfl:
+  first-job:
+    name: CPFL first job
+    group: CPFL
+    description: Primeiro exemplo de job vindo da CPFL rodando
+  second-job:
+    name: CPFL second job
+    group: CPFL
+    description: Segundo exemplo de job vindo da CPFL rodando
