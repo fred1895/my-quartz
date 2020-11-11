@@ -20,7 +20,8 @@ Precisa mudar a variavel de ambiente para local
 ## Endpoints
 O projeto possui 4 jobs de 2 empresas diferentes. Elas estão padronizadas assim: </br>
 ### Base URL
-`http://localhost:8090/{nomeDaEmpresa}/job/{numJob}`  
+`http://localhost:8090/{nomeDaEmpresa}/job/{numJob}`  </br>
+
 *__{nomeDaEmpresa}__*: O nome da empresa, exemplo: enelsp, cpfl...
 </br>
 *__{numJob}__*: O nome que irá identificar qual job respectivo para a empresa passada na Query. Exemplo: first, second...
