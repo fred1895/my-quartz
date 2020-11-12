@@ -1,9 +1,9 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.JobInfoDTO;
+import br.com.wod.quartz.dto.JobInfoCronDTO;
+import br.com.wod.quartz.dto.JobInfoSimpleDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
-import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -26,35 +26,41 @@ public class JobsBasicServiceUtil {
 
     }
 
-    public static JobInfoDTO getSimpleJobDetail(
+    public static JobInfoSimpleDTO getSimpleJobDetail(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            JobDetailImpl jobDetailImpl,
-            JobInfoDTO jobInfo) throws SchedulerException {
+            JobDetailImpl jobDetailImpl) throws SchedulerException {
+
+        JobInfoSimpleDTO jobInfoDTO = new JobInfoSimpleDTO();
 
         SimpleTriggerImpl jobTrigger = (SimpleTriggerImpl) scheduler
                 .getTrigger(triggerMonitor.getTrigger().getKey());
 
-        if (jobDetailImpl != null && jobTrigger != null) {
-            jobInfo.setJobName(jobDetailImpl.getName());
-            jobInfo.setJobGroup(jobDetailImpl.getGroup());
-            jobInfo.setJobDescription(jobDetailImpl.getDescription());
 
-            jobInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
-            jobInfo.setNextFireTime(jobTrigger.getNextFireTime());
-            jobInfo.setRepeatInterval(jobTrigger.getRepeatInterval());
-            jobInfo.setTimesTriggered(jobTrigger.getTimesTriggered());
+        if (jobDetailImpl != null && jobTrigger != null) {
+
+            jobInfoDTO.setJobName(jobDetailImpl.getName());
+            jobInfoDTO.setJobGroup(jobDetailImpl.getGroup());
+            jobInfoDTO.setJobDescription(jobDetailImpl.getDescription());
+
+
+            jobInfoDTO.setPreviousFireTime(jobTrigger.getPreviousFireTime());
+            jobInfoDTO.setNextFireTime(jobTrigger.getNextFireTime());
+            jobInfoDTO.setRepeatInterval(jobTrigger.getRepeatInterval());
+            jobInfoDTO.setTimesTriggered(jobTrigger.getTimesTriggered());
+
         } else {
             throw new MySchedulerException("Inicie o job para pegar suas infos");
         }
-        return jobInfo;
+        return jobInfoDTO;
     }
 
-    public static JobInfoDTO getCronJobDetail(
+    public static JobInfoCronDTO getCronJobDetail(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            JobDetailImpl jobDetailImpl,
-            JobInfoDTO jobInfo) throws SchedulerException {
+            JobDetailImpl jobDetailImpl) throws SchedulerException {
+
+        JobInfoCronDTO jobInfo = new JobInfoCronDTO();
 
         CronTriggerImpl jobTrigger = (CronTriggerImpl) scheduler
                 .getTrigger(triggerMonitor.getTrigger().getKey());
@@ -76,4 +82,6 @@ public class JobsBasicServiceUtil {
     public static boolean isSimpleTrigger(Trigger trigger) {
         return (trigger instanceof SimpleTriggerImpl) ? true : false;
     }
+
+
 }

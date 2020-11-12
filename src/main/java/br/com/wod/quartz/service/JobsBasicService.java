@@ -1,19 +1,15 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.JobInfoDTO;
+import br.com.wod.quartz.dto.JobInfoBasic;
+import br.com.wod.quartz.dto.JobInfoSimpleDTO;
 import br.com.wod.quartz.dto.TimeDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;
-import org.quartz.impl.triggers.CronTriggerImpl;
-import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.TimeZone;
 
 import static br.com.wod.quartz.service.JobsBasicServiceUtil.*;
 import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
@@ -26,8 +22,7 @@ public class JobsBasicService {
     @Value("${error.myscheduler.msg}")
     private String errorMsg;
 
-    public JobInfoDTO getInfo(Scheduler scheduler, JobDetail jobDetail, TriggerMonitor triggerMonitor) {
-        JobInfoDTO jobInfo = new JobInfoDTO();
+    public Object getInfo(Scheduler scheduler, JobDetail jobDetail, TriggerMonitor triggerMonitor) {
 
         try {
             JobDetailImpl jobDetailImpl = (JobDetailImpl) scheduler
@@ -38,12 +33,12 @@ public class JobsBasicService {
             boolean simpleTrigger = isSimpleTrigger(trigger);
 
             if (simpleTrigger) {
-                jobInfo = getSimpleJobDetail(scheduler, triggerMonitor, jobDetailImpl, jobInfo);
+                return getSimpleJobDetail(scheduler, triggerMonitor, jobDetailImpl);
 
             } else {
-                jobInfo = getCronJobDetail(scheduler, triggerMonitor, jobDetailImpl, jobInfo);
+                return getCronJobDetail(scheduler, triggerMonitor, jobDetailImpl);
             }
-            return jobInfo;
+
 
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
@@ -97,16 +92,8 @@ public class JobsBasicService {
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
             TimeDTO timeDTO) {
-        SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
-
-        TriggerBuilder<SimpleTrigger> triggerBuilder = trigger.getTriggerBuilder();
 
         try {
-            SimpleTriggerImpl jobTrigger = (SimpleTriggerImpl) scheduler
-                    .getTrigger(triggerMonitor.getTrigger().getKey());
-
-            JobKey jobKey = jobTrigger.getJobKey();
-
             Trigger newTrigger = newTrigger()
                     .withIdentity("daily")
                     .withSchedule(dailyAtHourAndMinute(timeDTO.getHour(), timeDTO.getMinute())) // execute job daily at 11:30
@@ -126,14 +113,12 @@ public class JobsBasicService {
             TimeDTO timeDTO) {
 
         log.info("SCHEDULER - HOUR CONFIG COMMAND");
-        SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
 
-        TriggerBuilder<SimpleTrigger> triggerBuilder = trigger.getTriggerBuilder();
-
-        Trigger newTrigger = triggerBuilder
+        Trigger newTrigger = newTrigger()
+                .withIdentity("hour")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInHours(timeDTO.getHour())
+                        .withIntervalInSeconds(timeDTO.getHour())
                         .repeatForever())
                 .build();
 
@@ -151,14 +136,11 @@ public class JobsBasicService {
             TimeDTO timeDTO) {
 
         log.info("SCHEDULER - MINUTE CONFIG COMMAND");
-        SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
-
-        TriggerBuilder<SimpleTrigger> triggerBuilder = trigger.getTriggerBuilder();
-
-        Trigger newTrigger = triggerBuilder
+        Trigger newTrigger = newTrigger()
+                .withIdentity("minute")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInMinutes(timeDTO.getMinute())
+                        .withIntervalInSeconds(timeDTO.getMinute())
                         .repeatForever())
                 .build();
 
@@ -176,11 +158,9 @@ public class JobsBasicService {
             TimeDTO timeDTO) {
 
         log.info("SCHEDULER - SECOND CONFIG COMMAND");
-        SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
 
-        TriggerBuilder<SimpleTrigger> triggerBuilder = trigger.getTriggerBuilder();
-
-        Trigger newTrigger = triggerBuilder
+        Trigger newTrigger = newTrigger()
+                .withIdentity("second")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds(timeDTO.getSecond())

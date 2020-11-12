@@ -4,22 +4,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Locale;
 
 @Data
 @Component
-public class JobInfoDTO implements Serializable {
-
+public abstract class JobInfoBasic implements Serializable {
 
     @JsonProperty("job-name")
-    private String jobName;
+    String jobName;
 
     @JsonProperty("job-group")
-    private String jobGroup;
+    String jobGroup;
 
     @JsonProperty("job-description")
     private String jobDescription;
@@ -39,11 +36,5 @@ public class JobInfoDTO implements Serializable {
             timezone="Brazil/East",
             shape = JsonFormat.Shape.STRING)
     private Date nextFireTime;
-
-    @JsonProperty("repeat-interval")
-    private Long repeatInterval;
-
-    @JsonProperty("times-triggered")
-    private Integer timesTriggered;
 
 }
