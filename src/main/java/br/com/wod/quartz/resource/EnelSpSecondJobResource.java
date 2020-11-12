@@ -13,6 +13,12 @@ public class EnelSpSecondJobResource {
     @Autowired
     private EnelSpSecondJobService service;
 
+    @GetMapping("/info")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getInfo() {
+        return service.getJobInfo();
+    }
+
     @GetMapping("/start")
     @ResponseStatus(HttpStatus.OK)
     public void startJob() {
