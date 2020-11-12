@@ -98,6 +98,64 @@ Deleta o Job selecionado. MUITO CUIDADO!</br>
 Status 200 
 </br>
 </br>
+
+`GET {baseUrl}/info`</br>
+Retorna informacoes do Job selecionado. WARNING: Caso nao tenha iniciado, retorna 400 com mensagem dizendo para iniciar job. Exemplos abaixo:</br>
+Caso seja uma config de hora, minuto ou segundo retornará com essa resposta:
+
+```
+{
+    "job-name": "Enel SP first job",
+    "job-group": "EnelSp",
+    "job-description": "Primeiro exemplo de job vindo da Enel Sao Paulo rodando",
+    "previous-fire-time": 2020-11-12@15:43:00,
+    "next-fire-time": "2020-11-12@15:53:00"
+    "repeat-interval": 10000
+    "times-triggered": 15
+}
+```
+
+Status 200 <br>
+
+*__{previous-fire-time}__*: O ultimo instante em que o job foi executado. Padrão da data: "yyyy-MM-dd@HH:mm:ss".
+</br>
+*__{next-fire-time}__*: O proximo instante em que o job será executado. Padrão da data: "yyyy-MM-dd@HH:mm:ss".
+</br>
+*__{repeat-interval}__*: Os milisegundos entre as execuções do job.
+</br>
+*__{times-triggered}__*: O numero de vezes que o job foi executado desde a sua inicialização.
+ 
+</br>
+</br>
+
+Caso seja uma daily config (ex: a configuracao onde envia hora e minuto, e ele é executado diariamente no horario informado), os atributos "repeat-interval" e "times-triggered" não serão retornados.
+
+```
+{
+    "job-name": "Enel SP first job",
+    "job-group": "EnelSp",
+    "job-description": "Primeiro exemplo de job vindo da Enel Sao Paulo rodando",
+    "previous-fire-time": "2020-11-12@15:53:00",
+    "next-fire-time": "2020-11-13@15:53:00"
+}
+
+```
+
+Status 200 <br> <br>
+
+Caso tente pegar as informações antes de inicar o job, será retornado esse JSON:
+
+```
+{
+    "status": 400,
+    "msg": "Inicie o job para pegar suas infos",
+    "timeStamp": 1605210878168
+}
+
+```
+Status 400
+<br>
+
 ### Endpoints de configuração
 Para esses endpoints sera necessario passar um DTO no corpo da requisição. <br>
 ATENÇÃO. NÃO SERÁ NESSÁRIO SEMPRE PASSAR TODAS AS PROPRIEDADES. SERÁ DE ACORDO COM O ENDPOINT.
