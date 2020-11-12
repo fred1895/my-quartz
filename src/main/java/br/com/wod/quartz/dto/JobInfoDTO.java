@@ -40,6 +40,9 @@ public class JobInfoDTO implements Serializable {
             shape = JsonFormat.Shape.STRING)
     private Date nextFireTime;
 
+    @JsonProperty("repeat-interval")
+    private Long repeatInterval;
+
     @JsonProperty("times-triggered")
     private Integer timesTriggered;
 

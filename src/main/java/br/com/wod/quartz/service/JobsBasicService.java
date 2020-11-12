@@ -7,9 +7,17 @@ import br.com.wod.quartz.schedule.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.JobDetailImpl;
+import org.quartz.impl.triggers.CronTriggerImpl;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.TimeZone;
+
+import static br.com.wod.quartz.service.JobsBasicServiceUtil.*;
+import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 @Service
 @Slf4j
@@ -25,19 +33,15 @@ public class JobsBasicService {
             JobDetailImpl jobDetailImpl = (JobDetailImpl) scheduler
                     .getJobDetail(jobDetail.getKey());
 
-            SimpleTriggerImpl jobTrigger = (SimpleTriggerImpl) scheduler
-                    .getTrigger(triggerMonitor.getTrigger().getKey());
+            Trigger trigger = getTriggerFromScheduler(scheduler, triggerMonitor);
 
-            if (jobDetailImpl != null && jobTrigger != null) {
-                jobInfo.setJobName(jobDetailImpl.getName());
-                jobInfo.setJobGroup(jobDetailImpl.getGroup());
-                jobInfo.setJobDescription(jobDetailImpl.getDescription());
+            boolean simpleTrigger = isSimpleTrigger(trigger);
 
-                jobInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
-                jobInfo.setNextFireTime(jobTrigger.getNextFireTime());
-                jobInfo.setTimesTriggered(jobTrigger.getTimesTriggered());
+            if (simpleTrigger) {
+                jobInfo = getSimpleJobDetail(scheduler, triggerMonitor, jobDetailImpl, jobInfo);
+
             } else {
-                throw new MySchedulerException("Inicie o job para pegar suas infos");
+                jobInfo = getCronJobDetail(scheduler, triggerMonitor, jobDetailImpl, jobInfo);
             }
             return jobInfo;
 
@@ -95,16 +99,25 @@ public class JobsBasicService {
             TimeDTO timeDTO) {
         SimpleTrigger trigger = (SimpleTrigger) triggerMonitor.getTrigger();
 
-        Trigger newTrigger = DailyTimeIntervalScheduleBuilder.dailyTimeIntervalSchedule()
-                .startingDailyAt(TimeOfDay.hourAndMinuteOfDay(timeDTO.getHour(), timeDTO.getMinute()))
-                .build();
+        TriggerBuilder<SimpleTrigger> triggerBuilder = trigger.getTriggerBuilder();
 
         try {
+            SimpleTriggerImpl jobTrigger = (SimpleTriggerImpl) scheduler
+                    .getTrigger(triggerMonitor.getTrigger().getKey());
+
+            JobKey jobKey = jobTrigger.getJobKey();
+
+            Trigger newTrigger = newTrigger()
+                    .withIdentity("daily")
+                    .withSchedule(dailyAtHourAndMinute(timeDTO.getHour(), timeDTO.getMinute())) // execute job daily at 11:30
+                    .build();
+
             scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }
-        triggerMonitor.setTrigger(newTrigger);
+
     }
 
     public void hourConfig(
