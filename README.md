@@ -141,7 +141,9 @@ Caso seja uma daily config (ex: a configuracao onde envia hora e minuto, e ele �
 
 ```
 
-Status 200 <br> <br>
+Status 200
+
+<hr>
 
 Caso tente pegar as informações antes de inicar o job, será retornado esse JSON:
 
