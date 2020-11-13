@@ -77,7 +77,7 @@ public class JobsBasicServiceUtil {
             jobInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
             jobInfo.setNextFireTime(jobTrigger.getNextFireTime());
         } else {
-            throw new MySchedulerException("Inicie o job para pegar suas infos");
+            throw new MySchedulerException("Start the job to get the information about it");
         }
         return jobInfo;
     }

@@ -149,11 +149,11 @@ Caso tente pegar as informações antes de inicar o job, será retornado esse JS
 
 ```
 {
-    "status": 400,
-    "msg": "Inicie o job para pegar suas infos",
-    "timeStamp": 1605210878168
+    "status-code": 400,
+    "http-status": "BAD_REQUEST",
+    "message": "Start the job to get the information about it",
+    "timestamp": 1605293886816
 }
-
 ```
 Status 400
 <br>
