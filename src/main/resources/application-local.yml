@@ -2,7 +2,9 @@ server:
   port: 8090
 error:
   myscheduler:
-    msg: "Erro ao agendar Job: "
+    msg: "Error scheduling this job: "
+  job-info:
+    msg: "Start the job to get the information about it"
 enelsp:
   first-job:
     name: Enel SP first job

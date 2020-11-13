@@ -1,7 +1,10 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.JobInfoBasic;
-import br.com.wod.quartz.dto.TimeDTO;
+import br.com.wod.quartz.dto.jobinfo.JobInfoBasic;
+import br.com.wod.quartz.dto.time.DailyDTO;
+import br.com.wod.quartz.dto.time.HourDTO;
+import br.com.wod.quartz.dto.time.MinuteDTO;
+import br.com.wod.quartz.dto.time.SecondDTO;
 
 public interface SchedulerBaseService {
 
@@ -15,12 +18,12 @@ public interface SchedulerBaseService {
 
     void deleteJob();
 
-    void dailyJobConfig(TimeDTO timeDTO);
+    void dailyJobConfig(DailyDTO dailyDTO);
 
-    void hourJobConfig(TimeDTO timeDTO);
+    void hourJobConfig(HourDTO hourDTO);
 
-    void minuteJobConfig(TimeDTO timeDTO);
+    void minuteJobConfig(MinuteDTO minuteDTO);
 
-    void secondJobConfig(TimeDTO timeDTO);
+    void secondJobConfig(SecondDTO secondDTO);
 
 }

@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class StandardError implements Serializable {
+public class ValidationStandardError implements Serializable {
 
     @JsonProperty("status-code")
     private Integer statusCode;
@@ -16,8 +17,8 @@ public class StandardError implements Serializable {
     @JsonProperty("http-status")
     private String httpStatus;
 
-    @JsonProperty("message")
-    private String msg;
+    @JsonProperty("messages")
+    private List<String> msg;
 
     @JsonProperty("time-stamp")
     private Long timeStamp;

@@ -1,7 +1,10 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.JobInfoBasic;
-import br.com.wod.quartz.dto.TimeDTO;
+import br.com.wod.quartz.dto.jobinfo.JobInfoBasic;
+import br.com.wod.quartz.dto.time.DailyDTO;
+import br.com.wod.quartz.dto.time.HourDTO;
+import br.com.wod.quartz.dto.time.MinuteDTO;
+import br.com.wod.quartz.dto.time.SecondDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,12 +93,12 @@ public class JobsBasicService {
     public void dailyConfig(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            TimeDTO timeDTO) {
+            DailyDTO dailyDTO) {
 
         try {
             Trigger newTrigger = newTrigger()
                     .withIdentity("daily")
-                    .withSchedule(dailyAtHourAndMinute(timeDTO.getHour(), timeDTO.getMinute())) // execute job daily at 11:30
+                    .withSchedule(dailyAtHourAndMinute(dailyDTO.getHour(), dailyDTO.getMinute())) // execute job daily at 11:30
                     .build();
 
             scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
@@ -109,7 +112,7 @@ public class JobsBasicService {
     public void hourConfig(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            TimeDTO timeDTO) {
+            HourDTO hourDTO) {
 
         log.info("SCHEDULER - HOUR CONFIG COMMAND");
 
@@ -117,7 +120,7 @@ public class JobsBasicService {
                 .withIdentity("hour")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInSeconds(timeDTO.getHour())
+                        .withIntervalInHours(hourDTO.getHour())
                         .repeatForever())
                 .build();
 
@@ -132,14 +135,14 @@ public class JobsBasicService {
     public void minuteConfig(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            TimeDTO timeDTO) {
+            MinuteDTO minuteDTO) {
 
         log.info("SCHEDULER - MINUTE CONFIG COMMAND");
         Trigger newTrigger = newTrigger()
                 .withIdentity("minute")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInSeconds(timeDTO.getMinute())
+                        .withIntervalInMinutes(minuteDTO.getMinute())
                         .repeatForever())
                 .build();
 
@@ -154,7 +157,7 @@ public class JobsBasicService {
     public void secondConfig(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            TimeDTO timeDTO) {
+            SecondDTO secondDTO) {
 
         log.info("SCHEDULER - SECOND CONFIG COMMAND");
 
@@ -162,7 +165,7 @@ public class JobsBasicService {
                 .withIdentity("second")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInSeconds(timeDTO.getSecond())
+                        .withIntervalInSeconds(secondDTO.getSecond())
                         .repeatForever())
                 .build();
 

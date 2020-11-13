@@ -1,4 +1,4 @@
-package br.com.wod.quartz.dto;
+package br.com.wod.quartz.dto.jobinfo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

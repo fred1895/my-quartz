@@ -1,11 +1,16 @@
 package br.com.wod.quartz.resource;
 
 import br.com.wod.quartz.cpfl.service.CpflFirstJobService;
-import br.com.wod.quartz.dto.JobInfoBasic;
-import br.com.wod.quartz.dto.TimeDTO;
+import br.com.wod.quartz.dto.jobinfo.JobInfoBasic;
+import br.com.wod.quartz.dto.time.DailyDTO;
+import br.com.wod.quartz.dto.time.HourDTO;
+import br.com.wod.quartz.dto.time.MinuteDTO;
+import br.com.wod.quartz.dto.time.SecondDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/cpfl/job/first")
@@ -46,25 +51,25 @@ public class CpflFirstJobResource {
 
     @PostMapping("/config/dia")
     @ResponseStatus(HttpStatus.CREATED)
-    public void dailyConfig(@RequestBody TimeDTO time) {
+    public void dailyConfig(@RequestBody @Valid DailyDTO time) {
         service.dailyJobConfig(time);
     }
 
     @PostMapping("/config/hora")
     @ResponseStatus(HttpStatus.CREATED)
-    public void hourConfig(@RequestBody TimeDTO time) {
+    public void hourConfig(@RequestBody @Valid HourDTO time) {
         service.hourJobConfig(time);
     }
 
     @PostMapping("/config/minuto")
     @ResponseStatus(HttpStatus.CREATED)
-    public void minuteConfig(@RequestBody TimeDTO time) {
+    public void minuteConfig(@RequestBody @Valid MinuteDTO time) {
         service.minuteJobConfig(time);
     }
 
     @PostMapping("/config/segundo")
     @ResponseStatus(HttpStatus.CREATED)
-    public void secondConfig(@RequestBody TimeDTO time) {
+    public void secondConfig(@RequestBody @Valid SecondDTO time) {
         service.secondJobConfig(time);
     }
 

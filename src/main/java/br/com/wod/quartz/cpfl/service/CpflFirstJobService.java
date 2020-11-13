@@ -1,12 +1,16 @@
 package br.com.wod.quartz.cpfl.service;
 
-import br.com.wod.quartz.dto.JobInfoBasic;
-import br.com.wod.quartz.dto.TimeDTO;
+import br.com.wod.quartz.dto.jobinfo.JobInfoBasic;
+import br.com.wod.quartz.dto.time.DailyDTO;
+import br.com.wod.quartz.dto.time.HourDTO;
+import br.com.wod.quartz.dto.time.MinuteDTO;
+import br.com.wod.quartz.dto.time.SecondDTO;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import br.com.wod.quartz.service.JobsBasicService;
 import br.com.wod.quartz.service.SchedulerBaseService;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.*;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,23 +65,23 @@ public class CpflFirstJobService implements SchedulerBaseService {
     }
 
     @Override
-    public void dailyJobConfig(TimeDTO timeDTO) {
-        basicService.dailyConfig(scheduler, triggerMonitor, timeDTO);
+    public void dailyJobConfig(DailyDTO dailyDTO) {
+        basicService.dailyConfig(scheduler, triggerMonitor, dailyDTO);
     }
 
     @Override
-    public void hourJobConfig(TimeDTO timeDTO) {
-        basicService.hourConfig(scheduler, triggerMonitor, timeDTO);
+    public void hourJobConfig(HourDTO hourDTO) {
+        basicService.hourConfig(scheduler, triggerMonitor, hourDTO);
     }
 
     @Override
-    public void minuteJobConfig(TimeDTO timeDTO) {
-        basicService.minuteConfig(scheduler, triggerMonitor, timeDTO);
+    public void minuteJobConfig(MinuteDTO minuteDTO) {
+        basicService.minuteConfig(scheduler, triggerMonitor, minuteDTO);
     }
 
     @Override
-    public void secondJobConfig(TimeDTO timeDTO) {
-        basicService.secondConfig(scheduler, triggerMonitor, timeDTO);
+    public void secondJobConfig(SecondDTO secondDTO) {
+        basicService.secondConfig(scheduler, triggerMonitor, secondDTO);
     }
 
 }

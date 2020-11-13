@@ -1,7 +1,7 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.JobInfoCronDTO;
-import br.com.wod.quartz.dto.JobInfoSimpleDTO;
+import br.com.wod.quartz.dto.jobinfo.JobInfoCronDTO;
+import br.com.wod.quartz.dto.jobinfo.JobInfoSimpleDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import org.quartz.Scheduler;
@@ -10,8 +10,12 @@ import org.quartz.Trigger;
 import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
+import org.springframework.beans.factory.annotation.Value;
 
 public class JobsBasicServiceUtil {
+
+    @Value("${error.job-info.msg}")
+    private String jobInfoError;
 
     public static Trigger getTriggerFromScheduler(
             Scheduler scheduler,
@@ -50,7 +54,7 @@ public class JobsBasicServiceUtil {
             jobInfoDTO.setTimesTriggered(jobTrigger.getTimesTriggered());
 
         } else {
-            throw new MySchedulerException("Inicie o job para pegar suas infos");
+            throw new MySchedulerException("Start the job to get the information about it");
         }
         return jobInfoDTO;
     }
