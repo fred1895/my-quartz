@@ -5,6 +5,7 @@ Repositório em Spring  usando QUARTZ SCHEDULE agendando e customizando Jobs.
 * [Como rodar?](#start-my-quartz)
 * [Todos os Jobs](#todos-os-jobs)
 * [Jobs especificos](#jobs-espicificos)
+* [Erros de validacao](#erros-de-validacao)
 
 # Como rodar?
 **ATENÇÃO: O PROJETO ESTÁ RODANDO NA PORTA 8090**
@@ -124,9 +125,8 @@ Status 200 <br>
 *__{repeat-interval}__*: Os milisegundos entre as execuções do job.
 </br>
 *__{times-triggered}__*: O numero de vezes que o job foi executado desde a sua inicialização.
- 
-</br>
-</br>
+
+<hr>
 
 Caso seja uma daily config (ex: a configuracao onde envia hora e minuto, e ele é executado diariamente no horario informado), os atributos "repeat-interval" e "times-triggered" não serão retornados.
 
@@ -157,16 +157,7 @@ Status 400
 <br>
 
 ### Endpoints de configuração
-Para esses endpoints sera necessario passar um DTO no corpo da requisição. <br>
-ATENÇÃO. NÃO SERÁ NESSÁRIO SEMPRE PASSAR TODAS AS PROPRIEDADES. SERÁ DE ACORDO COM O ENDPOINT.
-```
-{
-    "hour": 10,
-    "minute": 10,
-    "second": 10
-}
-```
-<br>
+Para esses endpoints sera necessario passar um Objeto no corpo da requisição. Segue abaixo os exemplos <br>
 
 `POST {baseUrl}/config/dia`</br>
 São passados hora e minuto para o Job ser executado uma unica vez por dia no horario escolhido. Padrão 24h.
@@ -223,4 +214,22 @@ Status 201
 </br>
 
 [Voltar ao menu](#menu)
+
+# Erros de validacao
+
+### Exemplo
+
+```
+{
+    "status-code": 400,
+    "http-status": "BAD_REQUEST",
+    "messages": [
+        "The hour should not be greater than 23",
+        "The minute should not be greater than 59"
+    ],
+    "time-stamp": 1605290348489
+}
+```
+
+Status 400
 

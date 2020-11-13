@@ -19,6 +19,6 @@ public class StandardError implements Serializable {
     @JsonProperty("message")
     private String msg;
 
-    @JsonProperty("time-stamp")
-    private Long timeStamp;
+    @JsonProperty("timestamp")
+    private Long timestamp;
 }

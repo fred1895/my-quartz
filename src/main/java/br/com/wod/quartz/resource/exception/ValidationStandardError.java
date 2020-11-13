@@ -20,6 +20,6 @@ public class ValidationStandardError implements Serializable {
     @JsonProperty("messages")
     private List<String> msg;
 
-    @JsonProperty("time-stamp")
-    private Long timeStamp;
+    @JsonProperty("timestamp")
+    private Long timestamp;
 }
