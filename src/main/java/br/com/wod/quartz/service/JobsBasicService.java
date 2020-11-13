@@ -1,7 +1,6 @@
 package br.com.wod.quartz.service;
 
 import br.com.wod.quartz.dto.JobInfoBasic;
-import br.com.wod.quartz.dto.JobInfoSimpleDTO;
 import br.com.wod.quartz.dto.TimeDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
@@ -22,7 +21,7 @@ public class JobsBasicService {
     @Value("${error.myscheduler.msg}")
     private String errorMsg;
 
-    public Object getInfo(Scheduler scheduler, JobDetail jobDetail, TriggerMonitor triggerMonitor) {
+    public JobInfoBasic getInfo(Scheduler scheduler, JobDetail jobDetail, TriggerMonitor triggerMonitor) {
 
         try {
             JobDetailImpl jobDetailImpl = (JobDetailImpl) scheduler

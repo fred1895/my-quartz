@@ -1,10 +1,11 @@
 package br.com.wod.quartz.service;
 
+import br.com.wod.quartz.dto.JobInfoBasic;
 import br.com.wod.quartz.dto.TimeDTO;
 
 public interface SchedulerBaseService {
 
-    Object getJobInfo();
+    JobInfoBasic getJobInfo();
 
     void startJob();
 

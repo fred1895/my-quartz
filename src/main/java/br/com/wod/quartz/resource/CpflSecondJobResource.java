@@ -1,6 +1,7 @@
 package br.com.wod.quartz.resource;
 
 import br.com.wod.quartz.cpfl.service.CpflSecondJobService;
+import br.com.wod.quartz.dto.JobInfoBasic;
 import br.com.wod.quartz.dto.TimeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ public class CpflSecondJobResource {
 
     @GetMapping("/info")
     @ResponseStatus(HttpStatus.OK)
-    public Object getInfo() {
+    public JobInfoBasic getInfo() {
         return service.getJobInfo();
     }
 

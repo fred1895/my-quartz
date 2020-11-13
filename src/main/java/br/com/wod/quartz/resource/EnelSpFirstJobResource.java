@@ -17,7 +17,7 @@ public class EnelSpFirstJobResource {
 
     @GetMapping("/info")
     @ResponseStatus(HttpStatus.OK)
-    public Object getInfo() {
+    public JobInfoBasic getInfo() {
         return service.getJobInfo();
     }
 
