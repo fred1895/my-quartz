@@ -205,10 +205,10 @@ Caso tente pegar as informações antes de inicar o job, será retornado esse JS
 
 ```
 {
+    "timestamp": 1605293886816
     "status-code": 400,
     "http-status": "BAD_REQUEST",
     "message": "Start the job to get the information about it",
-    "timestamp": 1605293886816
 }
 ```
 Status 400
@@ -279,13 +279,13 @@ Status 201
 
 ```
 {
+    "time-stamp": 1605290348489
     "status-code": 400,
     "http-status": "BAD_REQUEST",
     "messages": [
         "The hour should not be greater than 23",
         "The minute should not be greater than 59"
     ],
-    "time-stamp": 1605290348489
 }
 ```
 

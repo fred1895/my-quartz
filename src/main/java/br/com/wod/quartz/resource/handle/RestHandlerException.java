@@ -25,7 +25,7 @@ public class RestHandlerException {
     public ResponseEntity<StandardError> handleResponseStatusException(ResponseStatusException e, HttpServletRequest request) {
         String message = e.getReason();
         HttpStatus httpStatus = e.getStatus();
-        StandardError error = new StandardError(httpStatus.value(), httpStatus.name(), message, System.currentTimeMillis());
+        StandardError error = new StandardError(System.currentTimeMillis(), httpStatus.value(), httpStatus.name(), message);
         return ResponseEntity.status(httpStatus).body(error);
     }
 
@@ -33,7 +33,7 @@ public class RestHandlerException {
     public ResponseEntity<StandardError> handleResponseStatusException(MySchedulerException e, HttpServletRequest request) {
         String message = e.getMessage();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        StandardError error = new StandardError(httpStatus.value(), httpStatus.name(), message, System.currentTimeMillis());
+        StandardError error = new StandardError(System.currentTimeMillis(),httpStatus.value(), httpStatus.name(), message);
         return ResponseEntity.status(httpStatus).body(error);
     }
 
@@ -41,7 +41,7 @@ public class RestHandlerException {
     public ResponseEntity<StandardError> handleMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         String message = "Wrong Http verb to this request: " + e.getMessage();
         HttpStatus httpStatus = HttpStatus.METHOD_NOT_ALLOWED;
-        StandardError error = new StandardError((httpStatus.value()), httpStatus.name(), message, System.currentTimeMillis());
+        StandardError error = new StandardError(System.currentTimeMillis(),httpStatus.value(), httpStatus.name(), message);
         return ResponseEntity.status(httpStatus).body(error);
     }
 
@@ -49,7 +49,7 @@ public class RestHandlerException {
     public ResponseEntity<StandardError> handleMethodNotSupported(HttpMessageNotReadableException e, HttpServletRequest request) {
         String message = e.getMessage();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        StandardError error = new StandardError((httpStatus.value()), httpStatus.name(), message, System.currentTimeMillis());
+        StandardError error = new StandardError(System.currentTimeMillis(),httpStatus.value(), httpStatus.name(), message);
         return ResponseEntity.status(httpStatus).body(error);
     }
 
@@ -63,7 +63,7 @@ public class RestHandlerException {
                 .collect(toList());
 
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        ValidationStandardError error = new ValidationStandardError(httpStatus.value(), httpStatus.name(), messages, System.currentTimeMillis());
+        ValidationStandardError error = new ValidationStandardError(System.currentTimeMillis(),httpStatus.value(), httpStatus.name(), messages);
         return ResponseEntity.status(httpStatus).body(error);
 
     }

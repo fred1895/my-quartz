@@ -11,6 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ValidationStandardError implements Serializable {
 
+    @JsonProperty("timestamp")
+    private Long timestamp;
+
     @JsonProperty("status-code")
     private Integer statusCode;
 
@@ -20,6 +23,4 @@ public class ValidationStandardError implements Serializable {
     @JsonProperty("messages")
     private List<String> msg;
 
-    @JsonProperty("timestamp")
-    private Long timestamp;
 }

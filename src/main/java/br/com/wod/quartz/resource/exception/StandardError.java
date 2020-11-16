@@ -10,6 +10,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class StandardError implements Serializable {
 
+    @JsonProperty("timestamp")
+    private Long timestamp;
+
     @JsonProperty("status-code")
     private Integer statusCode;
 
@@ -19,6 +22,4 @@ public class StandardError implements Serializable {
     @JsonProperty("message")
     private String msg;
 
-    @JsonProperty("timestamp")
-    private Long timestamp;
 }
