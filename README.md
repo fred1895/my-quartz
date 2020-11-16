@@ -148,10 +148,6 @@ Caso seja uma config de hora, minuto ou segundo retornará com essa resposta:
     "job-group": "EnelSp",
     "job-description": "Primeiro exemplo de job vindo da Enel Sao Paulo rodando",
     "status": "STOPPED"
-    "previous-fire-time": 2020-11-12@15:43:00,
-    "next-fire-time": "2020-11-12@15:53:00"
-    "repeat-interval": 10000
-    "times-triggered": 15
 }
 
 ```
