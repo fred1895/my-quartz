@@ -4,7 +4,7 @@ error:
   myscheduler:
     msg: "Error scheduling this job: "
   job-info:
-    msg: "Start the job to get the information about it"
+    msg: "Inicie o job para pegar suas informações "
 enelsp:
   first-job:
     name: Enel SP first job

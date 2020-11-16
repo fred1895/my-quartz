@@ -1,7 +1,7 @@
 package br.com.wod.quartz.cpfl.config;
 
 import br.com.wod.quartz.config.JobConfig;
-import br.com.wod.quartz.cpfl.jobs.CpflFirstJob;
+import br.com.wod.quartz.cpfl.jobs.CpflSecondJob;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import br.com.wod.quartz.schedule.TriggerMonitorImpl;
 import org.quartz.JobDetail;
@@ -30,7 +30,7 @@ public class CpflSecondJobConfig implements JobConfig {
     @Override
     @Bean(name = "cpflSecondJob")
     public JobDetailFactoryBean jobDetail() {
-        JobDetailFactoryBean jobDetail = createJobDetail(CpflFirstJob.class);
+        JobDetailFactoryBean jobDetail = createJobDetail(CpflSecondJob.class);
         return setInfo(jobDetail, jobName, jobGroup, jobDescription);
     }
 

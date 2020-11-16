@@ -97,7 +97,6 @@ public class JobsBasicService {
 
         try {
             Trigger newTrigger = newTrigger()
-                    .withIdentity("daily")
                     .withSchedule(dailyAtHourAndMinute(dailyDTO.getHour(), dailyDTO.getMinute())) // execute job daily at 11:30
                     .build();
 
@@ -117,7 +116,6 @@ public class JobsBasicService {
         log.info("SCHEDULER - HOUR CONFIG COMMAND");
 
         Trigger newTrigger = newTrigger()
-                .withIdentity("hour")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInHours(hourDTO.getHour())
@@ -139,7 +137,6 @@ public class JobsBasicService {
 
         log.info("SCHEDULER - MINUTE CONFIG COMMAND");
         Trigger newTrigger = newTrigger()
-                .withIdentity("minute")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInMinutes(minuteDTO.getMinute())
@@ -162,7 +159,6 @@ public class JobsBasicService {
         log.info("SCHEDULER - SECOND CONFIG COMMAND");
 
         Trigger newTrigger = newTrigger()
-                .withIdentity("second")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds(secondDTO.getSecond())
