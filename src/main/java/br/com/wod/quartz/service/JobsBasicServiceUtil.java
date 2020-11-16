@@ -1,7 +1,8 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.jobinfo.JobInfoCronDTO;
-import br.com.wod.quartz.dto.jobinfo.JobInfoSimpleDTO;
+import br.com.wod.quartz.dto.SchedulerStates.SchedulerStates;
+import br.com.wod.quartz.dto.jobinfo.TriggerInfoCronDTO;
+import br.com.wod.quartz.dto.jobinfo.TriggerInfoSimpleDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import org.quartz.Scheduler;
@@ -30,62 +31,65 @@ public class JobsBasicServiceUtil {
 
     }
 
-    public static JobInfoSimpleDTO getSimpleJobDetail(
+    public static TriggerInfoSimpleDTO getSimpleJobDetail(
             Scheduler scheduler,
-            TriggerMonitor triggerMonitor,
-            JobDetailImpl jobDetailImpl) throws SchedulerException {
+            TriggerMonitor triggerMonitor) throws SchedulerException {
 
-        JobInfoSimpleDTO jobInfoDTO = new JobInfoSimpleDTO();
+        TriggerInfoSimpleDTO triggerInfo = new TriggerInfoSimpleDTO();
 
         SimpleTriggerImpl jobTrigger = (SimpleTriggerImpl) scheduler
                 .getTrigger(triggerMonitor.getTrigger().getKey());
 
 
-        if (jobDetailImpl != null && jobTrigger != null) {
+        if (jobTrigger != null) {
 
-            jobInfoDTO.setJobName(jobDetailImpl.getName());
-            jobInfoDTO.setJobGroup(jobDetailImpl.getGroup());
-            jobInfoDTO.setJobDescription(jobDetailImpl.getDescription());
-
-
-            jobInfoDTO.setPreviousFireTime(jobTrigger.getPreviousFireTime());
-            jobInfoDTO.setNextFireTime(jobTrigger.getNextFireTime());
-            jobInfoDTO.setRepeatInterval(jobTrigger.getRepeatInterval());
-            jobInfoDTO.setTimesTriggered(jobTrigger.getTimesTriggered());
+            triggerInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
+            triggerInfo.setNextFireTime(jobTrigger.getNextFireTime());
+            triggerInfo.setRepeatInterval(jobTrigger.getRepeatInterval());
+            triggerInfo.setTimesTriggered(jobTrigger.getTimesTriggered());
 
         } else {
             throw new MySchedulerException("Start the job to get the information about it");
         }
-        return jobInfoDTO;
+        return triggerInfo;
     }
 
-    public static JobInfoCronDTO getCronJobDetail(
+    public static TriggerInfoCronDTO getCronJobDetail(
             Scheduler scheduler,
-            TriggerMonitor triggerMonitor,
-            JobDetailImpl jobDetailImpl) throws SchedulerException {
+            TriggerMonitor triggerMonitor) throws SchedulerException {
 
-        JobInfoCronDTO jobInfo = new JobInfoCronDTO();
+        TriggerInfoCronDTO triggerInfo = new TriggerInfoCronDTO();
 
         CronTriggerImpl jobTrigger = (CronTriggerImpl) scheduler
                 .getTrigger(triggerMonitor.getTrigger().getKey());
 
-        if (jobDetailImpl != null && jobTrigger != null) {
-            jobInfo.setJobName(jobDetailImpl.getName());
-            jobInfo.setJobGroup(jobDetailImpl.getGroup());
-            jobInfo.setJobDescription(jobDetailImpl.getDescription());
-
-            jobInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
-            jobInfo.setNextFireTime(jobTrigger.getNextFireTime());
+        if (jobTrigger != null) {
+            triggerInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
+            triggerInfo.setNextFireTime(jobTrigger.getNextFireTime());
         } else {
             throw new MySchedulerException("Start the job to get the information about it");
         }
-        return jobInfo;
+        return triggerInfo;
     }
 
 
     public static boolean isSimpleTrigger(Trigger trigger) {
         return (trigger instanceof SimpleTriggerImpl) ? true : false;
     }
+
+    public static String getJobStatus(Scheduler scheduler) {
+        try {
+            if (scheduler.isShutdown() || !scheduler.isStarted())
+                return SchedulerStates.STOPPED.toString();
+            else if (scheduler.isStarted() && scheduler.isInStandbyMode())
+                return SchedulerStates.PAUSED.toString();
+            else
+                return SchedulerStates.RUNNING.toString();
+        } catch (SchedulerException e) {
+            throw new MySchedulerException("Error trying to get the information abut the job: " + e.getMessage());
+        }
+    }
+
 
 
 }

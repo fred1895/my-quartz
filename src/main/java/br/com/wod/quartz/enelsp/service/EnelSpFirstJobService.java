@@ -1,6 +1,7 @@
 package br.com.wod.quartz.enelsp.service;
 
-import br.com.wod.quartz.dto.jobinfo.JobInfoBasic;
+import br.com.wod.quartz.dto.jobinfo.JobInfo;
+import br.com.wod.quartz.dto.jobinfo.TriggerInfo;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
 import br.com.wod.quartz.dto.time.MinuteDTO;
@@ -16,13 +17,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 @Service
 @Slf4j
 public class EnelSpFirstJobService implements SchedulerBaseService {
 
-    @Resource
+    @Autowired
+    @Qualifier("enelSpFirstJobScheduler")
     private Scheduler scheduler;
 
     @Autowired
@@ -40,23 +40,28 @@ public class EnelSpFirstJobService implements SchedulerBaseService {
     private String errorMsg;
 
     @Override
-    public JobInfoBasic getJobInfo() {
-        return basicService.getInfo(scheduler, jobDetail, triggerMonitor);
+    public JobInfo getJobInfo() {
+        return basicService.getJobInfo(scheduler, jobDetail);
+    }
+
+    @Override
+    public TriggerInfo getTriggerInfo() {
+        return basicService.getTriggerInfo(scheduler, triggerMonitor);
     }
 
     @Override
     public void startJob() {
-        basicService.start(scheduler, jobDetail, triggerMonitor);
+        basicService.start(scheduler);
     }
 
     @Override
     public void resumeJob() {
-        basicService.resume(scheduler, jobDetail);
+        basicService.resume(scheduler);
     }
 
     @Override
     public void pauseJob() {
-        basicService.pause(scheduler, jobDetail);
+        basicService.pause(scheduler);
     }
 
     @Override

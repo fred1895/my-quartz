@@ -1,6 +1,7 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.jobinfo.JobInfoBasic;
+import br.com.wod.quartz.dto.jobinfo.JobInfo;
+import br.com.wod.quartz.dto.jobinfo.TriggerInfo;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
 import br.com.wod.quartz.dto.time.MinuteDTO;
@@ -8,7 +9,9 @@ import br.com.wod.quartz.dto.time.SecondDTO;
 
 public interface SchedulerBaseService {
 
-    JobInfoBasic getJobInfo();
+
+    JobInfo getJobInfo();
+    TriggerInfo getTriggerInfo();
 
     void startJob();
 

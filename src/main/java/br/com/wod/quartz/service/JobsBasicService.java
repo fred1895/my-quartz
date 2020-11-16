@@ -1,6 +1,7 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.jobinfo.JobInfoBasic;
+import br.com.wod.quartz.dto.jobinfo.JobInfo;
+import br.com.wod.quartz.dto.jobinfo.TriggerInfo;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
 import br.com.wod.quartz.dto.time.MinuteDTO;
@@ -24,21 +25,37 @@ public class JobsBasicService {
     @Value("${error.myscheduler.msg}")
     private String errorMsg;
 
-    public JobInfoBasic getInfo(Scheduler scheduler, JobDetail jobDetail, TriggerMonitor triggerMonitor) {
-
+    public JobInfo getJobInfo(Scheduler scheduler, JobDetail jobDetail) {
         try {
+            JobInfo jobInfo = new JobInfo();
             JobDetailImpl jobDetailImpl = (JobDetailImpl) scheduler
                     .getJobDetail(jobDetail.getKey());
 
+            jobInfo.setJobName(jobDetailImpl.getName());
+            jobInfo.setJobGroup(jobDetailImpl.getGroup());
+            jobInfo.setJobDescription(jobDetailImpl.getDescription());
+
+            String status = getJobStatus(scheduler);
+            jobInfo.setStatus(status);
+
+            return jobInfo;
+        } catch (SchedulerException e) {
+            throw new MySchedulerException(errorMsg + e.getMessage());
+        }
+    }
+
+    public TriggerInfo getTriggerInfo(Scheduler scheduler, TriggerMonitor triggerMonitor) {
+
+        try {
             Trigger trigger = getTriggerFromScheduler(scheduler, triggerMonitor);
 
             boolean simpleTrigger = isSimpleTrigger(trigger);
 
             if (simpleTrigger) {
-                return getSimpleJobDetail(scheduler, triggerMonitor, jobDetailImpl);
+                return getSimpleJobDetail(scheduler, triggerMonitor);
 
             } else {
-                return getCronJobDetail(scheduler, triggerMonitor, jobDetailImpl);
+                return getCronJobDetail(scheduler, triggerMonitor);
             }
 
 
@@ -47,34 +64,28 @@ public class JobsBasicService {
         }
     }
 
-    public void start(
-            Scheduler scheduler,
-            JobDetail jobDetail,
-            TriggerMonitor triggerMonitor) {
+    public void start(Scheduler scheduler) {
         log.info("SCHEDULER - START COMMAND");
         try {
             scheduler.start();
-            scheduler.scheduleJob(jobDetail, triggerMonitor.getTrigger());
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }
     }
 
-    public void resume(Scheduler scheduler, JobDetail jobDetail) {
-        JobKey jobKey = jobDetail.getKey();
+    public void resume(Scheduler scheduler) {
         log.info("SCHEDULER - RESUME COMMAND");
         try {
-            scheduler.resumeJob(jobKey);
+            scheduler.start();
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }
     }
 
-    public void pause(Scheduler scheduler, JobDetail jobDetail) {
-        JobKey jobKey = jobDetail.getKey();
+    public void pause(Scheduler scheduler) {
         log.info("SCHEDULER - PAUSE COMMAND");
         try {
-            scheduler.pauseJob(jobKey);
+            scheduler.standby();
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }

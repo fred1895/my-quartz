@@ -2,16 +2,22 @@ package br.com.wod.quartz.enelsp.config;
 
 import br.com.wod.quartz.config.JobConfig;
 import br.com.wod.quartz.enelsp.jobs.EnelSpFirstJob;
+import br.com.wod.quartz.schedule.AutowiringSpringBeanJobFactory;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import br.com.wod.quartz.schedule.TriggerMonitorImpl;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
+import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+
+import java.io.IOException;
 
 import static br.com.wod.quartz.config.SchedulerConfigUtil.*;
 
@@ -47,4 +53,23 @@ public class EnelSpFirstJobConfig implements JobConfig {
         triggerMonitor.setTrigger(trigger);
         return triggerMonitor;
     }
+
+    @Bean(name = "enelSpFirstJobScheduler")
+    public SchedulerFactoryBean schedulerFactoryBean(
+            @Qualifier(value = "enelFirstJobTrigger") Trigger trigger,
+            @Qualifier(value = "enelSpFirstJobSchedulerJobFactory") JobFactory jobFactory) throws IOException {
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        factory.setTriggers(trigger);
+        factory.setJobFactory(jobFactory);
+        factory.setAutoStartup(false);
+        return factory;
+    }
+
+    @Bean(name = "enelSpFirstJobSchedulerJobFactory")
+    public JobFactory jobFactory(ApplicationContext applicationContext) {
+        AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+        jobFactory.setApplicationContext(applicationContext);
+        return jobFactory;
+    }
+
 }

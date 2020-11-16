@@ -10,16 +10,7 @@ import java.util.Date;
 
 @Data
 @Component
-public abstract class JobInfoBasic implements Serializable {
-
-    @JsonProperty("job-name")
-    String jobName;
-
-    @JsonProperty("job-group")
-    String jobGroup;
-
-    @JsonProperty("job-description")
-    private String jobDescription;
+public abstract class TriggerInfo implements Serializable {
 
     @JsonProperty("previous-fire-time")
     @JsonFormat(
