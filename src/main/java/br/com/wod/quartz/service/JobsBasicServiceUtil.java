@@ -41,7 +41,7 @@ public class JobsBasicServiceUtil {
                 .getTrigger(triggerMonitor.getTrigger().getKey());
 
 
-        if (jobTrigger != null) {
+        if (jobTrigger != null && scheduler.isStarted()) {
 
             triggerInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
             triggerInfo.setNextFireTime(jobTrigger.getNextFireTime());
@@ -63,7 +63,7 @@ public class JobsBasicServiceUtil {
         CronTriggerImpl jobTrigger = (CronTriggerImpl) scheduler
                 .getTrigger(triggerMonitor.getTrigger().getKey());
 
-        if (jobTrigger != null) {
+        if (jobTrigger != null && scheduler.isStarted()) {
             triggerInfo.setPreviousFireTime(jobTrigger.getPreviousFireTime());
             triggerInfo.setNextFireTime(jobTrigger.getNextFireTime());
         } else {

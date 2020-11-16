@@ -54,6 +54,44 @@ Status 200
 </br>
 </br>
 
+`GET {baseUrl}/info`</br>
+Retornara uma lista com as informacoes de todos os jobs</br>
+Status 200 
+
+```
+[
+    {
+        "job-name": "Enel SP first job",
+        "job-group": "EnelSp",
+        "job-description": "Primeiro exemplo de job vindo da Enel Sao Paulo rodando",
+        "status": "STOPPED"
+    },
+    {
+        "job-name": "Enel SP second job",
+        "job-group": "EnelSp",
+        "job-description": "Segundo exemplo de job vindo da Enel Sao Paulo rodando",
+        "status": "STOPPED"
+    },
+    {
+        "job-name": "CPFL first job",
+        "job-group": "CPFL",
+        "job-description": "Primeiro exemplo de job vindo da CPFL rodando",
+        "status": "STOPPED"
+    },
+    {
+        "job-name": "CPFL second job",
+        "job-group": "CPFL",
+        "job-description": "Segundo exemplo de job vindo da CPFL rodando",
+        "status": "STOPPED"
+    }
+]
+
+```
+
+</br>
+</br>
+
+
 [Voltar ao menu](#menu)
 
 # Jobs especificos
@@ -100,8 +138,8 @@ Status 200
 </br>
 </br>
 
-`GET {baseUrl}/info`</br>
-Retorna informacoes do Job selecionado. WARNING: Caso nao tenha iniciado, retorna 400 com mensagem dizendo para iniciar job. Exemplos abaixo:</br>
+`GET {baseUrl}/job-info`</br>
+Retorna informacoes do Job selecionado. Exemplo abaixo:</br>
 Caso seja uma config de hora, minuto ou segundo retornará com essa resposta:
 
 ```
@@ -109,14 +147,39 @@ Caso seja uma config de hora, minuto ou segundo retornará com essa resposta:
     "job-name": "Enel SP first job",
     "job-group": "EnelSp",
     "job-description": "Primeiro exemplo de job vindo da Enel Sao Paulo rodando",
+    "status": "STOPPED"
     "previous-fire-time": 2020-11-12@15:43:00,
     "next-fire-time": "2020-11-12@15:53:00"
     "repeat-interval": 10000
     "times-triggered": 15
 }
+
 ```
 
-Status 200 <br>
+*__{status}__*: Retornará STOPPED, RUNNING ou PAUSED.
+</br>
+STOPPED - Caso o job nao tenha sido iniciado;
+</br>
+RUNNING - Caso o job tenha sido iniciado;
+</br>
+PAUSED - Caso o job tenha sido pausado;   
+</br>
+Status 200 
+<hr>
+
+`GET {baseUrl}/cron-info`</br>
+Retorna informacoes de agendamento referente ao Job selecionado. WARNING: Caso nao tenha iniciado, retorna 400 com mensagem dizendo para iniciar job. Exemplos abaixo:</br>
+Caso seja uma config de hora, minuto ou segundo retornará com essa resposta:
+
+```
+{
+    "previous-fire-time": 2020-11-12@15:43:00,
+    "next-fire-time": "2020-11-12@15:53:00"
+    "repeat-interval": 10000
+    "times-triggered": 15
+}
+
+```
 
 *__{previous-fire-time}__*: O ultimo instante em que o job foi executado. Padrão da data: "yyyy-MM-dd@HH:mm:ss".
 </br>
@@ -132,9 +195,6 @@ Caso seja uma daily config (ex: a configuracao onde envia hora e minuto, e ele �
 
 ```
 {
-    "job-name": "Enel SP first job",
-    "job-group": "EnelSp",
-    "job-description": "Primeiro exemplo de job vindo da Enel Sao Paulo rodando",
     "previous-fire-time": "2020-11-12@15:53:00",
     "next-fire-time": "2020-11-13@15:53:00"
 }
