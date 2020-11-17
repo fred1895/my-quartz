@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/enelsp/job/first")
+@RequestMapping("/${enelsp.first-job.group}/job/${enelsp.first-job.name}")
 @CrossOrigin("*")
 public class EnelSpFirstJobResource {
 

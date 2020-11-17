@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/cpfl/job/first")
+@RequestMapping("/${cpfl.first-job.group}/job/${cpfl.first-job.name}")
 @CrossOrigin("*")
 public class CpflFirstJobResource {
 

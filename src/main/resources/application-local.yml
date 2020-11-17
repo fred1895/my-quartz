@@ -7,19 +7,19 @@ error:
     msg: "Inicie o job para pegar suas informações "
 enelsp:
   first-job:
-    name: Enel SP first job
-    group: EnelSp
+    name: first
+    group: enelsp
     description: Primeiro exemplo de job vindo da Enel Sao Paulo rodando
   second-job:
-    name: Enel SP second job
-    group: EnelSp
+    name: second
+    group: enelsp
     description: Segundo exemplo de job vindo da Enel Sao Paulo rodando
 cpfl:
   first-job:
-    name: CPFL first job
-    group: CPFL
+    name: first
+    group: cpfl
     description: Primeiro exemplo de job vindo da CPFL rodando
   second-job:
-    name: CPFL second job
-    group: CPFL
+    name: second
+    group: cpfl
     description: Segundo exemplo de job vindo da CPFL rodando
