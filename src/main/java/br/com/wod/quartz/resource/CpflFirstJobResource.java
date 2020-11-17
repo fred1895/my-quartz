@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/cpfl/job/first")
+@CrossOrigin("*")
 public class CpflFirstJobResource {
 
     @Autowired

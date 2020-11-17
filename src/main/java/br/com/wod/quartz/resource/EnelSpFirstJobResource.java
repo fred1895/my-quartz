@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/enelsp/job/first")
+@CrossOrigin("*")
 public class EnelSpFirstJobResource {
 
     @Autowired
