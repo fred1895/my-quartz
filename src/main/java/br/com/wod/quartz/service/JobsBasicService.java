@@ -105,6 +105,7 @@ public class JobsBasicService {
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
             DailyDTO dailyDTO) {
+        log.info("SCHEDULER - DAILY CONFIG COMMAND");
 
         try {
             Trigger newTrigger = newTrigger()
@@ -116,7 +117,6 @@ public class JobsBasicService {
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }
-
     }
 
     public void hourConfig(
