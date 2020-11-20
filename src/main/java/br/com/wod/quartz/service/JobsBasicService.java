@@ -1,6 +1,8 @@
 package br.com.wod.quartz.service;
 
+import br.com.wod.quartz.dto.enums.SchedulerStates;
 import br.com.wod.quartz.dto.jobinfo.JobInfo;
+import br.com.wod.quartz.dto.jobinfo.JobStatus;
 import br.com.wod.quartz.dto.jobinfo.TriggerInfo;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
@@ -35,7 +37,8 @@ public class JobsBasicService {
             jobInfo.setJobGroup(jobDetailImpl.getGroup());
             jobInfo.setJobDescription(jobDetailImpl.getDescription());
 
-            String status = getJobStatus(scheduler);
+            SchedulerStates jobStatus = getJobStatus(scheduler);
+            JobStatus status = new JobStatus(jobStatus);
             jobInfo.setStatus(status);
 
             return jobInfo;

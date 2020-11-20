@@ -1,6 +1,6 @@
 package br.com.wod.quartz.service;
 
-import br.com.wod.quartz.dto.SchedulerStates.SchedulerStates;
+import br.com.wod.quartz.dto.enums.SchedulerStates;
 import br.com.wod.quartz.dto.jobinfo.TriggerInfoCronDTO;
 import br.com.wod.quartz.dto.jobinfo.TriggerInfoSimpleDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
@@ -8,7 +8,6 @@ import br.com.wod.quartz.schedule.TriggerMonitor;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.quartz.impl.triggers.SimpleTriggerImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,14 +76,14 @@ public class JobsBasicServiceUtil {
         return (trigger instanceof SimpleTriggerImpl) ? true : false;
     }
 
-    public static String getJobStatus(Scheduler scheduler) {
+    public static SchedulerStates getJobStatus(Scheduler scheduler) {
         try {
             if (scheduler.isShutdown() || !scheduler.isStarted())
-                return SchedulerStates.STOPPED.toString();
+                return SchedulerStates.STOPPED;
             else if (scheduler.isStarted() && scheduler.isInStandbyMode())
-                return SchedulerStates.PAUSED.toString();
+                return SchedulerStates.PAUSED;
             else
-                return SchedulerStates.RUNNING.toString();
+                return SchedulerStates.RUNNING;
         } catch (SchedulerException e) {
             throw new MySchedulerException("Error trying to get the information abut the job: " + e.getMessage());
         }
