@@ -1,9 +1,9 @@
 package br.com.wod.quartz.service;
 
 import br.com.wod.quartz.dto.enums.SchedulerStates;
-import br.com.wod.quartz.dto.jobinfo.JobInfo;
+import br.com.wod.quartz.dto.jobinfo.QrtzJobDetailsDTO;
 import br.com.wod.quartz.dto.jobinfo.JobStatus;
-import br.com.wod.quartz.dto.jobinfo.TriggerInfo;
+import br.com.wod.quartz.dto.jobinfo.QrtzTriggersDTO;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
 import br.com.wod.quartz.dto.time.MinuteDTO;
@@ -27,27 +27,27 @@ public class JobsBasicService {
     @Value("${error.myscheduler.msg}")
     private String errorMsg;
 
-    public JobInfo getJobInfo(Scheduler scheduler, JobDetail jobDetail) {
+    public QrtzJobDetailsDTO getJobInfo(Scheduler scheduler, JobDetail jobDetail) {
         try {
-            JobInfo jobInfo = new JobInfo();
+            QrtzJobDetailsDTO qrtzJobDetailsDTO = new QrtzJobDetailsDTO();
             JobDetailImpl jobDetailImpl = (JobDetailImpl) scheduler
                     .getJobDetail(jobDetail.getKey());
 
-            jobInfo.setJobName(jobDetailImpl.getName());
-            jobInfo.setJobGroup(jobDetailImpl.getGroup());
-            jobInfo.setJobDescription(jobDetailImpl.getDescription());
+            qrtzJobDetailsDTO.setJobName(jobDetailImpl.getName());
+            qrtzJobDetailsDTO.setJobGroup(jobDetailImpl.getGroup());
+            qrtzJobDetailsDTO.setJobDescription(jobDetailImpl.getDescription());
 
             SchedulerStates jobStatus = getJobStatus(scheduler);
             JobStatus status = new JobStatus(jobStatus);
-            jobInfo.setStatus(status);
+            qrtzJobDetailsDTO.setStatus(status);
 
-            return jobInfo;
+            return qrtzJobDetailsDTO;
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }
     }
 
-    public TriggerInfo getTriggerInfo(Scheduler scheduler, TriggerMonitor triggerMonitor) {
+    public QrtzTriggersDTO getTriggerInfo(Scheduler scheduler, TriggerMonitor triggerMonitor) {
 
         try {
             Trigger trigger = getTriggerFromScheduler(scheduler, triggerMonitor);
@@ -177,14 +177,44 @@ public class JobsBasicService {
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds(secondDTO.getSecond())
                         .repeatForever())
+                .withIdentity("teste1", "group1")
                 .build();
 
         try {
             scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }
-        triggerMonitor.setTrigger(newTrigger);
+    }
+
+    public void secondConfig2(
+            Scheduler scheduler,
+            TriggerMonitor triggerMonitor,
+            SecondDTO secondDTO,
+            JobDetail jobDetail) {
+
+        log.info("SCHEDULER - SECOND CONFIG COMMAND");
+
+        Trigger newTrigger = newTrigger()
+                .startNow()
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withIntervalInSeconds(secondDTO.getSecond())
+                        .repeatForever())
+                .withIdentity("testename", "testegroup")
+                .build();
+
+        try {
+            if(!scheduler.isStarted()) {
+                log.info("ENTROU AQUI");
+                scheduler.scheduleJob(jobDetail, newTrigger);
+            } else {
+                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            }
+            triggerMonitor.setTrigger(newTrigger);
+        } catch (SchedulerException e) {
+            throw new MySchedulerException(errorMsg + e.getMessage());
+        }
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Component
-public abstract class TriggerInfo implements Serializable {
+public abstract class QrtzTriggersDTO implements Serializable {
 
     @JsonProperty("previous-fire-time")
     @JsonFormat(

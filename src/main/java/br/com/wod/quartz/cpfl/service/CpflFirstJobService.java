@@ -1,7 +1,7 @@
 package br.com.wod.quartz.cpfl.service;
 
-import br.com.wod.quartz.dto.jobinfo.JobInfo;
-import br.com.wod.quartz.dto.jobinfo.TriggerInfo;
+import br.com.wod.quartz.dto.jobinfo.QrtzJobDetailsDTO;
+import br.com.wod.quartz.dto.jobinfo.QrtzTriggersDTO;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
 import br.com.wod.quartz.dto.time.MinuteDTO;
@@ -40,12 +40,12 @@ public class CpflFirstJobService implements SchedulerBaseService {
     private String errorMsg;
 
     @Override
-    public JobInfo getJobInfo() {
+    public QrtzJobDetailsDTO getJobInfo() {
         return basicService.getJobInfo(scheduler, jobDetail);
     }
 
     @Override
-    public TriggerInfo getTriggerInfo() {
+    public QrtzTriggersDTO getTriggerInfo() {
         return basicService.getTriggerInfo(scheduler, triggerMonitor);
     }
 

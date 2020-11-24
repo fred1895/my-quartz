@@ -1,8 +1,8 @@
 package br.com.wod.quartz.resource;
 
 import br.com.wod.quartz.cpfl.service.CpflFirstJobService;
-import br.com.wod.quartz.dto.jobinfo.JobInfo;
-import br.com.wod.quartz.dto.jobinfo.TriggerInfo;
+import br.com.wod.quartz.dto.jobinfo.QrtzJobDetailsDTO;
+import br.com.wod.quartz.dto.jobinfo.QrtzTriggersDTO;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
 import br.com.wod.quartz.dto.time.MinuteDTO;
@@ -23,13 +23,13 @@ public class CpflFirstJobResource {
 
     @GetMapping("/cron-info")
     @ResponseStatus(HttpStatus.OK)
-    public TriggerInfo getInfo() {
+    public QrtzTriggersDTO getInfo() {
         return service.getTriggerInfo();
     }
 
     @GetMapping("/job-info")
     @ResponseStatus(HttpStatus.OK)
-    public JobInfo getSimpleInfo() {
+    public QrtzJobDetailsDTO getSimpleInfo() {
         return service.getJobInfo();
     }
 

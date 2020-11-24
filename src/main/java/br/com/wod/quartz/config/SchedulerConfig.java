@@ -8,23 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import java.io.IOException;
+import java.util.Properties;
 
 @Configuration
 public class SchedulerConfig {
-
-    @Bean(name = "scheduler")
-    public SchedulerFactoryBean schedulerFactoryBean(JobFactory jobFactory) throws IOException {
-        SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        factory.setJobFactory(jobFactory);
-        factory.setAutoStartup(false);
-        return factory;
-    }
-
-    @Bean
-    public JobFactory jobFactory(ApplicationContext applicationContext) {
-        AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-        jobFactory.setApplicationContext(applicationContext);
-        return jobFactory;
-    }
 
 }

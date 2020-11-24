@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-public class TriggerInfoSimpleDTO extends TriggerInfo {
+public class QrtzTriggersDTOSimpleDTO extends QrtzTriggersDTO {
 
     @JsonProperty("repeat-interval")
     private Long repeatInterval;

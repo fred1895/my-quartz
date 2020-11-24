@@ -1,8 +1,8 @@
 package br.com.wod.quartz.service;
 
 import br.com.wod.quartz.dto.enums.SchedulerStates;
-import br.com.wod.quartz.dto.jobinfo.TriggerInfoCronDTO;
-import br.com.wod.quartz.dto.jobinfo.TriggerInfoSimpleDTO;
+import br.com.wod.quartz.dto.jobinfo.QrtzTriggersDTOCronDTO;
+import br.com.wod.quartz.dto.jobinfo.QrtzTriggersDTOSimpleDTO;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.schedule.TriggerMonitor;
 import org.quartz.Scheduler;
@@ -30,11 +30,11 @@ public class JobsBasicServiceUtil {
 
     }
 
-    public static TriggerInfoSimpleDTO getSimpleJobDetail(
+    public static QrtzTriggersDTOSimpleDTO getSimpleJobDetail(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor) throws SchedulerException {
 
-        TriggerInfoSimpleDTO triggerInfo = new TriggerInfoSimpleDTO();
+        QrtzTriggersDTOSimpleDTO triggerInfo = new QrtzTriggersDTOSimpleDTO();
 
         SimpleTriggerImpl jobTrigger = (SimpleTriggerImpl) scheduler
                 .getTrigger(triggerMonitor.getTrigger().getKey());
@@ -53,11 +53,11 @@ public class JobsBasicServiceUtil {
         return triggerInfo;
     }
 
-    public static TriggerInfoCronDTO getCronJobDetail(
+    public static QrtzTriggersDTOCronDTO getCronJobDetail(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor) throws SchedulerException {
 
-        TriggerInfoCronDTO triggerInfo = new TriggerInfoCronDTO();
+        QrtzTriggersDTOCronDTO triggerInfo = new QrtzTriggersDTOCronDTO();
 
         CronTriggerImpl jobTrigger = (CronTriggerImpl) scheduler
                 .getTrigger(triggerMonitor.getTrigger().getKey());

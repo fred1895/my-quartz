@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @Component
-public class JobInfo implements Serializable {
+public class QrtzJobDetailsDTO implements Serializable {
 
     @JsonProperty("job-name")
     String jobName;
