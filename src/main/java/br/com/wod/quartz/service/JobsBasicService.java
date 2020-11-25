@@ -1,8 +1,8 @@
 package br.com.wod.quartz.service;
 
 import br.com.wod.quartz.dto.enums.SchedulerStates;
-import br.com.wod.quartz.dto.jobinfo.QrtzJobDetailsDTO;
 import br.com.wod.quartz.dto.jobinfo.JobStatus;
+import br.com.wod.quartz.dto.jobinfo.QrtzJobDetailsDTO;
 import br.com.wod.quartz.dto.jobinfo.QrtzTriggersDTO;
 import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
@@ -32,7 +32,7 @@ public class JobsBasicService {
             QrtzJobDetailsDTO qrtzJobDetailsDTO = new QrtzJobDetailsDTO();
             JobDetailImpl jobDetailImpl = (JobDetailImpl) scheduler
                     .getJobDetail(jobDetail.getKey());
-
+            qrtzJobDetailsDTO.setSchedName(scheduler.getSchedulerName());
             qrtzJobDetailsDTO.setJobName(jobDetailImpl.getName());
             qrtzJobDetailsDTO.setJobGroup(jobDetailImpl.getGroup());
             qrtzJobDetailsDTO.setJobDescription(jobDetailImpl.getDescription());
@@ -107,15 +107,23 @@ public class JobsBasicService {
     public void dailyConfig(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            DailyDTO dailyDTO) {
+            DailyDTO dailyDTO,
+            JobDetail jobDetail) {
         log.info("SCHEDULER - DAILY CONFIG COMMAND");
 
         try {
             Trigger newTrigger = newTrigger()
-                    .withSchedule(dailyAtHourAndMinute(dailyDTO.getHour(), dailyDTO.getMinute())) // execute job daily at 11:30
+                    .withSchedule(dailyAtHourAndMinute(dailyDTO.getHour(), dailyDTO.getMinute())
+                            .withMisfireHandlingInstructionDoNothing())
+                    .forJob(jobDetail.getKey())
                     .build();
 
-            scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            Trigger trigger = triggerMonitor.getTrigger();
+            if (trigger != null) {
+                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            } else {
+                scheduler.scheduleJob(newTrigger);
+            }
             triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
@@ -125,70 +133,66 @@ public class JobsBasicService {
     public void hourConfig(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
-            HourDTO hourDTO) {
-
-        log.info("SCHEDULER - HOUR CONFIG COMMAND");
-
-        Trigger newTrigger = newTrigger()
-                .startNow()
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInHours(hourDTO.getHour())
-                        .repeatForever())
-                .build();
-
-        try {
-            scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
-        } catch (SchedulerException e) {
-            throw new MySchedulerException(errorMsg + e.getMessage());
-        }
-        triggerMonitor.setTrigger(newTrigger);
-    }
-
-    public void minuteConfig(
-            Scheduler scheduler,
-            TriggerMonitor triggerMonitor,
-            MinuteDTO minuteDTO) {
-
-        log.info("SCHEDULER - MINUTE CONFIG COMMAND");
-        Trigger newTrigger = newTrigger()
-                .startNow()
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInMinutes(minuteDTO.getMinute())
-                        .repeatForever())
-                .build();
-
-        try {
-            scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
-        } catch (SchedulerException e) {
-            throw new MySchedulerException(errorMsg + e.getMessage());
-        }
-        triggerMonitor.setTrigger(newTrigger);
-    }
-
-    public void secondConfig(
-            Scheduler scheduler,
-            TriggerMonitor triggerMonitor,
-            SecondDTO secondDTO) {
+            HourDTO hourDTO,
+            JobDetail jobDetail) {
 
         log.info("SCHEDULER - SECOND CONFIG COMMAND");
 
         Trigger newTrigger = newTrigger()
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withIntervalInSeconds(secondDTO.getSecond())
+                        .withIntervalInHours(hourDTO.getHour())
+                        .withMisfireHandlingInstructionNextWithRemainingCount()
                         .repeatForever())
-                .withIdentity("teste1", "group1")
+                .forJob(jobDetail.getKey())
                 .build();
 
         try {
-            scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            Trigger trigger = triggerMonitor.getTrigger();
+            if (trigger != null) {
+                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            } else {
+                scheduler.scheduleJob(newTrigger);
+            }
             triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {
             throw new MySchedulerException(errorMsg + e.getMessage());
         }
     }
 
-    public void secondConfig2(
+
+    public void minuteConfig(
+            Scheduler scheduler,
+            TriggerMonitor triggerMonitor,
+            MinuteDTO minuteDTO,
+            JobDetail jobDetail) {
+
+        log.info("SCHEDULER - SECOND CONFIG COMMAND");
+
+        Trigger newTrigger = newTrigger()
+                .startNow()
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withIntervalInMinutes(minuteDTO.getMinute())
+                        .withMisfireHandlingInstructionNextWithRemainingCount()
+                        .repeatForever())
+                .forJob(jobDetail.getKey())
+                .build();
+
+        try {
+            Trigger trigger = triggerMonitor.getTrigger();
+            if (trigger != null) {
+                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            } else {
+                scheduler.scheduleJob(newTrigger);
+            }
+            triggerMonitor.setTrigger(newTrigger);
+        } catch (SchedulerException e) {
+            throw new MySchedulerException(errorMsg + e.getMessage());
+        }
+    }
+
+
+    public void secondConfig(
             Scheduler scheduler,
             TriggerMonitor triggerMonitor,
             SecondDTO secondDTO,
@@ -200,16 +204,17 @@ public class JobsBasicService {
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInSeconds(secondDTO.getSecond())
+                        .withMisfireHandlingInstructionNextWithRemainingCount()
                         .repeatForever())
-                .withIdentity("testename", "testegroup")
+                .forJob(jobDetail.getKey())
                 .build();
 
         try {
-            if(!scheduler.isStarted()) {
-                log.info("ENTROU AQUI");
-                scheduler.scheduleJob(jobDetail, newTrigger);
-            } else {
+            Trigger trigger = triggerMonitor.getTrigger();
+            if (trigger != null) {
                 scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+            } else {
+                scheduler.scheduleJob(newTrigger);
             }
             triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {

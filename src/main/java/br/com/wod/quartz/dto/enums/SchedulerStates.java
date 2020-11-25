@@ -3,9 +3,8 @@ package br.com.wod.quartz.dto.enums;
 import lombok.Getter;
 
 public enum SchedulerStates {
-    STOPPED (1, "PARADO"),
-    RUNNING (2, "RODANDO"),
-    PAUSED (3, "PAUSADO");
+    WAITING(1, "EM ESPERA"),
+    RUNNING (2, "RODANDO");
 
     @Getter
     private int id;

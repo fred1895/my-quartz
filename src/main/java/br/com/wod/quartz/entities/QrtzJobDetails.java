@@ -17,6 +17,9 @@ public class QrtzJobDetails implements Serializable {
     @Column(name = "JOB_NAME")
     private String jobName;
 
+    @Column(name = "SCHED_NAME")
+    private String schedName;
+
     @Column(name = "JOB_GROUP")
     private String jobGroup;
 

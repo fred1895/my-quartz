@@ -79,9 +79,9 @@ public class JobsBasicServiceUtil {
     public static SchedulerStates getJobStatus(Scheduler scheduler) {
         try {
             if (scheduler.isShutdown() || !scheduler.isStarted())
-                return SchedulerStates.STOPPED;
+                return SchedulerStates.WAITING;
             else if (scheduler.isStarted() && scheduler.isInStandbyMode())
-                return SchedulerStates.PAUSED;
+                return SchedulerStates.WAITING;
             else
                 return SchedulerStates.RUNNING;
         } catch (SchedulerException e) {

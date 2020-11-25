@@ -1,6 +1,5 @@
 package br.com.wod.quartz.dto.jobinfo;
 
-import br.com.wod.quartz.dto.enums.SchedulerStates;
 import br.com.wod.quartz.entities.QrtzJobDetails;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Component
-public class QrtzJobDetailsDTO implements Serializable {
+public class QrtzJobDetailsNoStsDTO implements Serializable {
 
     @JsonProperty("sched-name")
     private String schedName;
@@ -26,10 +25,7 @@ public class QrtzJobDetailsDTO implements Serializable {
     @JsonProperty("job-description")
     private String jobDescription;
 
-    @JsonProperty("status")
-    private JobStatus status;
-
-    public QrtzJobDetailsDTO(QrtzJobDetails jobDetails) {
+    public QrtzJobDetailsNoStsDTO(QrtzJobDetails jobDetails) {
         this.schedName = jobDetails.getSchedName();
         this.jobName = jobDetails.getJobName();
         this.jobGroup = jobDetails.getJobGroup();

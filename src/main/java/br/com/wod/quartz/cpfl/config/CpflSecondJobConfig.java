@@ -18,11 +18,13 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
 import java.io.IOException;
+import java.util.Properties;
 
+import static br.com.wod.quartz.config.BeanConstriants.*;
 import static br.com.wod.quartz.config.SchedulerConfigUtil.*;
 
 @Configuration
-public class CpflSecondJobConfig implements JobConfig {
+public class CpflSecondJobConfig  {
 
     @Value("${cpfl.second-job.name}")
     private String jobName;
@@ -33,36 +35,28 @@ public class CpflSecondJobConfig implements JobConfig {
     @Value("${cpfl.second-job.description}")
     private String jobDescription;
 
-    @Override
-    @Bean(name = "cpflSecondJob")
+    @Bean(name = JOB_CPFL_SECOND)
     public JobDetailFactoryBean jobDetail() {
         JobDetailFactoryBean jobDetail = createJobDetail(CpflSecondJob.class);
+        jobDetail.setDurability(true);
         return setInfo(jobDetail, jobName, jobGroup, jobDescription);
     }
 
-    @Override
-    @Bean(name = "cpflSecondJobTrigger")
-    public SimpleTriggerFactoryBean sampleJobTrigger(
-            @Qualifier("cpflSecondJob") JobDetail jobDetail) {
-        return createTrigger(jobDetail);
-    }
-
-    @Override
-    @Bean(name = "cpflSecondTriggerMonitor")
-    public TriggerMonitor createTriggerMonitor(
-            @Qualifier("cpflSecondJobTrigger") Trigger trigger) {
+    @Bean(name = TRIGGER_MONITOR_CPFL_SECOND)
+    public TriggerMonitor createTriggerMonitor() {
         TriggerMonitor triggerMonitor = new TriggerMonitorImpl();
-        triggerMonitor.setTrigger(trigger);
         return triggerMonitor;
     }
 
-    @Bean(name = "cpflSecondJobScheduler")
+    @Bean(name = SCHED_CPFL_SECOND)
     public SchedulerFactoryBean schedulerFactoryBean(
-            @Qualifier(value = "cpflSecondJobTrigger") Trigger trigger,
+            @Qualifier(value = QUARTZ_PROPERTIES) Properties properties,
+            @Qualifier(value = JOB_CPFL_SECOND) JobDetail jobDetail,
             @Qualifier(value = "enelSpFirstJobSchedulerJobFactory") JobFactory jobFactory) throws IOException {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        factory.setTriggers(trigger);
         factory.setJobFactory(jobFactory);
+        factory.setJobDetails(jobDetail);
+        factory.setQuartzProperties(properties);
         factory.setAutoStartup(false);
         return factory;
     }

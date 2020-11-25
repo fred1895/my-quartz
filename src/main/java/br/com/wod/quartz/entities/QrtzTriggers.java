@@ -20,6 +20,15 @@ public class QrtzTriggers implements Serializable {
     @Column(name = "TRIGGER_GROUP")
     private String triggerGroup;
 
+    @Column(name = "SCHED_NAME")
+    private String schedName;
+
+    @Column(name = "JOB_NAME")
+    private String jobName;
+
+    @Column(name = "JOB_GROUP")
+    private String jobGroup;
+
     @Column(name = "DESCRIPTION")
     private String description;
 
