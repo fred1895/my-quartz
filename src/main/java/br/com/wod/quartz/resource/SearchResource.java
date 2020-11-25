@@ -24,10 +24,10 @@ public class SearchResource {
         return service.findByGroup(jobGroup);
     }
 
-    @GetMapping("/status/waiting")
+    @GetMapping("/all-jobs")
     @ResponseStatus(HttpStatus.OK)
-    public List<QrtzJobDetailsNoStsDTO> getByJStatus() {
-        return service.getWaitingStatus();
+    public List<QrtzJobDetailsDTO> allJobs() {
+        return service.findAll();
     }
 
 
