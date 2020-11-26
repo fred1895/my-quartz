@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "QRTZ_TRIGGERS")
+@Table(name = "qrtz_triggers")
 @Data
 public class QrtzTriggers implements Serializable {
 

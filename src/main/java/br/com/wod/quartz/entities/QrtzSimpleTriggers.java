@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "QRTZ_SIMPLE_TRIGGERS")
+@Table(name = "qrtz_simple_triggers")
 public class QrtzSimpleTriggers implements Serializable {
 
     @Id
