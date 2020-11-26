@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table(name = "qrtz_job_details")
+@Table(name = "QRTZ_JOB_DETAILS")
 public class QrtzJobDetails implements Serializable {
 
     @Id
