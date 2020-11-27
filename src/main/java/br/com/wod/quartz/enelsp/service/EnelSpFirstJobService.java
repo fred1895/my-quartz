@@ -6,7 +6,6 @@ import br.com.wod.quartz.dto.time.DailyDTO;
 import br.com.wod.quartz.dto.time.HourDTO;
 import br.com.wod.quartz.dto.time.MinuteDTO;
 import br.com.wod.quartz.dto.time.SecondDTO;
-import br.com.wod.quartz.entities.QrtzJobDetails;
 import br.com.wod.quartz.entities.QrtzTriggers;
 import br.com.wod.quartz.repositories.QrtzJobDetailsRepository;
 import br.com.wod.quartz.repositories.QrtzTriggersRepository;

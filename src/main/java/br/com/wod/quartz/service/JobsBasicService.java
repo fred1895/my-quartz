@@ -30,8 +30,10 @@ public class JobsBasicService {
     public QrtzJobDetailsDTO getJobInfo(Scheduler scheduler, JobDetail jobDetail) {
         try {
             QrtzJobDetailsDTO qrtzJobDetailsDTO = new QrtzJobDetailsDTO();
+
             JobDetailImpl jobDetailImpl = (JobDetailImpl) scheduler
                     .getJobDetail(jobDetail.getKey());
+
             qrtzJobDetailsDTO.setSchedName(scheduler.getSchedulerName());
             qrtzJobDetailsDTO.setJobName(jobDetailImpl.getName());
             qrtzJobDetailsDTO.setJobGroup(jobDetailImpl.getGroup());

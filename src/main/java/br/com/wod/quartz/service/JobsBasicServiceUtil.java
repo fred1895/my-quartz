@@ -81,11 +81,11 @@ public class JobsBasicServiceUtil {
             if (scheduler.isShutdown() || !scheduler.isStarted())
                 return SchedulerStates.WAITING;
             else if (scheduler.isStarted() && scheduler.isInStandbyMode())
-                return SchedulerStates.WAITING;
+                return SchedulerStates.PAUSED;
             else
                 return SchedulerStates.RUNNING;
         } catch (SchedulerException e) {
-            throw new MySchedulerException("Error trying to get the information abut the job: " + e.getMessage());
+            throw new MySchedulerException("Error trying to get the information about the job: " + e.getMessage());
         }
     }
 

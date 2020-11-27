@@ -2,7 +2,6 @@ package br.com.wod.quartz.resource;
 
 
 import br.com.wod.quartz.dto.jobinfo.QrtzJobDetailsDTO;
-import br.com.wod.quartz.dto.jobinfo.QrtzJobDetailsNoStsDTO;
 import br.com.wod.quartz.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,5 +29,11 @@ public class SearchResource {
         return service.findAll();
     }
 
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<QrtzJobDetailsDTO> allJobs(
+            @RequestParam(name = "status") String status) {
+        return service.findByStatus(status);
+    }
 
 }

@@ -16,13 +16,11 @@ import br.com.wod.quartz.resource.exception.MySchedulerException;
 import br.com.wod.quartz.resource.exception.QrtzObjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -63,8 +61,44 @@ public class SearchService {
         QrtzJobDetailsDTO jobInfo1 = enelSpSecondJobService.getJobInfo();
         QrtzJobDetailsDTO jobInfo2 = cpflFirstJobService.getJobInfo();
         QrtzJobDetailsDTO jobInfo3 = cpflSecondJobService.getJobInfo();
-        return Arrays.asList(jobInfo, jobInfo1, jobInfo2, jobInfo3);
+        List<QrtzJobDetailsDTO> qrtzJobDetailsDTOS = Arrays.asList(jobInfo, jobInfo1, jobInfo2, jobInfo3);
+        return qrtzJobDetailsDTOS;
     }
+
+    public List<QrtzJobDetailsDTO> findByStatus(String status) {
+        List<QrtzJobDetailsDTO> qrtzJobDetailsDTOS = findAll();
+        String statusUpp = status.toUpperCase();
+        SchedulerStates schedulerStates = SchedulerStates.valueOf(statusUpp);
+        List<QrtzJobDetailsDTO> qrtzJobDetails = new ArrayList<>();
+
+        for (QrtzJobDetailsDTO job : qrtzJobDetailsDTOS) {
+            if (job.getStatus().getId() == schedulerStates.getId()) {
+                qrtzJobDetails.add(job);
+            }
+        }
+        if (qrtzJobDetails.isEmpty()) throw new QrtzObjectNotFoundException();
+        return qrtzJobDetails;
+    }
+
+
+    public List<QrtzJobDetailsNoStsDTO> getByStatus(String status) {
+        String statusUpp = status.toUpperCase();
+        List<QrtzTriggers> triggers = triggersRepository.findByTriggerState(statusUpp);
+
+        List<QrtzJobDetails> jobs = new ArrayList<>();
+
+        for (QrtzTriggers trig : triggers) {
+            String schedName = trig.getSchedName();
+
+            QrtzJobDetails jobDetail = jobDetailsRepository
+                    .findBySchedName(schedName);
+
+            jobs.add(jobDetail);
+        }
+
+        return noStsToDto(jobs);
+    }
+
 
     private void setStatus(List<QrtzJobDetailsDTO> jobDetailsDTOS) {
         for (QrtzJobDetailsDTO job : jobDetailsDTOS) {
@@ -74,7 +108,7 @@ public class SearchService {
                 if (triggerState.equals("WAITING")) {
                     JobStatus jobStatus = new JobStatus(SchedulerStates.WAITING);
                     job.setStatus(jobStatus);
-                } else if (triggerState.equals("ACQUIRED")){
+                } else if (triggerState.equals("ACQUIRED")) {
                     JobStatus jobStatus = new JobStatus(SchedulerStates.RUNNING);
                     job.setStatus(jobStatus);
                 } else {

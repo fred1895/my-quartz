@@ -74,7 +74,14 @@ public class RestHandlerException {
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ValidationStandardError error = new ValidationStandardError(System.currentTimeMillis(), httpStatus.value(), httpStatus.name(), messages);
         return ResponseEntity.status(httpStatus).body(error);
+    }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<StandardError> handleValidationError(IllegalArgumentException e) {
+        String message = "Invalid argument";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        StandardError error = new StandardError(System.currentTimeMillis(), httpStatus.value(), httpStatus.name(), message);
+        return ResponseEntity.status(httpStatus).body(error);
     }
 
 }

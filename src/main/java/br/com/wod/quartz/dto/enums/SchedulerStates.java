@@ -2,14 +2,14 @@ package br.com.wod.quartz.dto.enums;
 
 import lombok.Getter;
 
+@Getter
 public enum SchedulerStates {
-    WAITING(1, "EM ESPERA"),
-    RUNNING (2, "RODANDO");
+    WAITING(1, "PARADO"),
+    PAUSED(2, "PAUSADO"),
+    RUNNING(3, "RODANDO");
 
-    @Getter
     private int id;
 
-    @Getter
     private String description;
 
     private SchedulerStates(int id, String description) {

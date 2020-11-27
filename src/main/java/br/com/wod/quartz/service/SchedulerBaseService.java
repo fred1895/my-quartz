@@ -11,6 +11,7 @@ public interface SchedulerBaseService {
 
 
     QrtzJobDetailsDTO getJobInfo();
+
     QrtzTriggersDTO getTriggerInfo();
 
     void startJob();
