@@ -64,7 +64,7 @@ public class EnelSpFirstJobService implements SchedulerBaseService {
                 triggerMonitor.setTrigger(trigger1);
                 scheduler.start();
             } catch (SchedulerException e) {
-                e.printStackTrace();
+                throw new MySchedulerException(errorMsg + e.getMessage());
             }
         } else {
             throw new MySchedulerException(errorMsg + "Config the the job to start it");

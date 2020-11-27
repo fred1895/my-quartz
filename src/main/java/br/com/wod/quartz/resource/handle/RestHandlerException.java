@@ -1,6 +1,7 @@
 package br.com.wod.quartz.resource.handle;
 
 import br.com.wod.quartz.resource.exception.MySchedulerException;
+import br.com.wod.quartz.resource.exception.QrtzObjectNotFoundException;
 import br.com.wod.quartz.resource.exception.StandardError;
 import br.com.wod.quartz.resource.exception.ValidationStandardError;
 import org.springframework.http.HttpStatus;
@@ -29,12 +30,21 @@ public class RestHandlerException {
     }
 
     @ExceptionHandler(MySchedulerException.class)
-    public ResponseEntity<StandardError> handleResponseStatusException(MySchedulerException e, HttpServletRequest request) {
+    public ResponseEntity<StandardError> handleMySchedulerException(MySchedulerException e, HttpServletRequest request) {
         String message = e.getMessage();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         StandardError error = new StandardError(System.currentTimeMillis(), httpStatus.value(), httpStatus.name(), message);
         return ResponseEntity.status(httpStatus).body(error);
     }
+
+    @ExceptionHandler(QrtzObjectNotFoundException.class)
+    public ResponseEntity<StandardError> handleObjectNotFoundException(QrtzObjectNotFoundException e, HttpServletRequest request) {
+        String message = e.getMessage();
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        StandardError error = new StandardError(System.currentTimeMillis(), httpStatus.value(), httpStatus.name(), message);
+        return ResponseEntity.status(httpStatus).body(error);
+    }
+
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<StandardError> handleMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {

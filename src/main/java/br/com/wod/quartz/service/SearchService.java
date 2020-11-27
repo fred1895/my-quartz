@@ -13,8 +13,10 @@ import br.com.wod.quartz.entities.QrtzTriggers;
 import br.com.wod.quartz.repositories.QrtzJobDetailsRepository;
 import br.com.wod.quartz.repositories.QrtzTriggersRepository;
 import br.com.wod.quartz.resource.exception.MySchedulerException;
+import br.com.wod.quartz.resource.exception.QrtzObjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,6 +50,9 @@ public class SearchService {
 
     public List<QrtzJobDetailsDTO> findByGroup(String jobGroup) {
         List<QrtzJobDetails> jobDetails = jobDetailsRepository.findByJobGroup(jobGroup);
+        if (jobDetails.isEmpty()) {
+            throw new QrtzObjectNotFoundException("Não há jobs para este grupo");
+        }
         List<QrtzJobDetailsDTO> jobDetailsDTOS = toDto(jobDetails);
         setStatus(jobDetailsDTOS);
         return jobDetailsDTOS;
