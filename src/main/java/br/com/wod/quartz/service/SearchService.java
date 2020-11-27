@@ -51,7 +51,7 @@ public class SearchService {
     public List<QrtzJobDetailsDTO> findByGroup(String jobGroup) {
         List<QrtzJobDetails> jobDetails = jobDetailsRepository.findByJobGroup(jobGroup);
         if (jobDetails.isEmpty()) {
-            throw new QrtzObjectNotFoundException("Não há jobs para este grupo");
+            throw new QrtzObjectNotFoundException();
         }
         List<QrtzJobDetailsDTO> jobDetailsDTOS = toDto(jobDetails);
         setStatus(jobDetailsDTOS);
