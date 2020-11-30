@@ -12,7 +12,7 @@ public class MinuteDTO implements Serializable {
 
     @JsonProperty("minute")
     @NotNull(message = "{time.notnull}")
-    @Min(value = 0, message = "{minute.min}")
+    @Min(value = 1, message = "{minute.min}")
     private Integer minute;
 
 }

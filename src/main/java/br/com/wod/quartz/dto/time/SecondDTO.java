@@ -12,7 +12,7 @@ public class SecondDTO implements Serializable {
 
     @JsonProperty("second")
     @NotNull(message = "{time.notnull}")
-    @Min(value = 0, message = "{second.min}")
+    @Min(value = 1, message = "{second.min}")
     private Integer second;
 
 }

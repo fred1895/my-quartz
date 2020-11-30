@@ -13,13 +13,13 @@ public class DailyDTO implements Serializable {
 
     @JsonProperty("hour")
     @NotNull(message = "{time.notnull}")
-    @Min(value = 0, message = "{hour.min}")
+    @Min(value = 0, message = "{daily-hour.min}")
     @Max(value = 23, message = "{hour.max}")
     private Integer hour;
 
     @JsonProperty("minute")
     @NotNull(message = "{time.notnull}")
-    @Min(value = 0, message = "{minute.min}")
+    @Min(value = 0, message = "{daily-minute.min}")
     @Max(value = 59, message = "{minute.max}")
     private Integer minute;
 

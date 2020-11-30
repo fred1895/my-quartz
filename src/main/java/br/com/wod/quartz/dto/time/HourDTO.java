@@ -12,7 +12,7 @@ public class HourDTO implements Serializable {
 
     @JsonProperty("hour")
     @NotNull(message = "{time.notnull}")
-    @Min(value = 0, message = "{hour.min}")
+    @Min(value = 1, message = "{hour.min}")
     private Integer hour;
 
 }
