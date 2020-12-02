@@ -2,10 +2,13 @@ package br.com.wod.quartz.configurations.cpfl.first;
 
 import br.com.wod.quartz.common.schedule.AutowiringSpringBeanJobFactory;
 import br.com.wod.quartz.core.adapters.JobDetailMonitor;
+import br.com.wod.quartz.core.adapters.SchedulerMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
 import br.com.wod.quartz.infrastructure.providers.JobDetailMonitorImpl;
+import br.com.wod.quartz.infrastructure.providers.SchedulerMonitorImpl;
 import br.com.wod.quartz.infrastructure.providers.TriggerMonitorImpl;
 import org.quartz.JobDetail;
+import org.quartz.Scheduler;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,7 +45,7 @@ public class CpflFirstJobConfig {
         return setInfo(jobDetail, jobName, jobGroup, jobDescription);
     }
 
-    @Bean(name = JOB_CPFL_FIRST_MONITOR)
+    @Bean(name = "job_monitor")
     public JobDetailMonitor createJobMonitor(
             @Qualifier(JOB_CPFL_FIRST) JobDetail jobDetail
     ) {
@@ -68,6 +71,15 @@ public class CpflFirstJobConfig {
         factory.setQuartzProperties(properties);
         factory.setAutoStartup(false);
         return factory;
+    }
+
+    @Bean(name = "scheduler_monitor")
+    public SchedulerMonitor schedulerMonitor(
+            @Qualifier(value = SCHED_CPFL_FIRST) Scheduler scheduler
+    ) {
+        SchedulerMonitor schedulerMonitor = new SchedulerMonitorImpl();
+        schedulerMonitor.setScheduler(scheduler);
+        return schedulerMonitor;
     }
 
     @Bean(name = "cpflFisrtJobSchedulerJobFactory")

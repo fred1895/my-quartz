@@ -11,4 +11,6 @@ public class EnelFirstBeans {
 
     public static final String JOB_ENELSP_FIRST_MONITOR = "enelsp_first_job_monitor";
 
+    public static final String SCHEDULER_ENELSP_FIRST_MONITOR = "enelsp_first_scheduler_monitor";
+
 }

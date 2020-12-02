@@ -6,6 +6,7 @@ import br.com.wod.quartz.api.dto.time.MinuteDTO;
 import br.com.wod.quartz.api.dto.time.SecondDTO;
 import br.com.wod.quartz.api.exception.MySchedulerException;
 import br.com.wod.quartz.core.adapters.JobDetailMonitor;
+import br.com.wod.quartz.core.adapters.SchedulerMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -17,15 +18,16 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 @Service
 @Slf4j
-public class JobsConfigServiceQrtz {
+public class JobsConfigServiceQrtz implements JobsConfigService{
 
     @Value("${error.myscheduler.msg}")
     private String errorMsg;
 
+    @Override
     public void dailyConfig(
             DailyDTO dailyDTO,
-            Scheduler scheduler,
-            JobDetail jobDetail,
+            SchedulerMonitor schedulerMonitor,
+            JobDetailMonitor jobDetailMonitor,
             TriggerMonitor triggerMonitor) {
 
         log.info("SCHEDULER - DAILY CONFIG COMMAND");
@@ -34,14 +36,14 @@ public class JobsConfigServiceQrtz {
             Trigger newTrigger = newTrigger()
                     .withSchedule(dailyAtHourAndMinute(dailyDTO.getHour(), dailyDTO.getMinute())
                             .withMisfireHandlingInstructionDoNothing())
-                    .forJob(jobDetail.getKey())
+                    .forJob(jobDetailMonitor.getJob().getKey())
                     .build();
 
             Trigger trigger = triggerMonitor.getTrigger();
             if (trigger != null) {
-                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+                schedulerMonitor.getScheduler().rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
             } else {
-                scheduler.scheduleJob(newTrigger);
+                schedulerMonitor.getScheduler().scheduleJob(newTrigger);
             }
             triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {
@@ -49,10 +51,11 @@ public class JobsConfigServiceQrtz {
         }
     }
 
+    @Override
     public void hourConfig(
             HourDTO hourDTO,
-            Scheduler scheduler,
-            JobDetail jobDetail,
+            SchedulerMonitor schedulerMonitor,
+            JobDetailMonitor jobDetailMonitor,
             TriggerMonitor triggerMonitor) {
 
         log.info("SCHEDULER - SECOND CONFIG COMMAND");
@@ -63,15 +66,15 @@ public class JobsConfigServiceQrtz {
                         .withIntervalInHours(hourDTO.getHour())
                         .withMisfireHandlingInstructionNextWithRemainingCount()
                         .repeatForever())
-                .forJob(jobDetail.getKey())
+                .forJob(jobDetailMonitor.getJob().getKey())
                 .build();
 
         try {
             Trigger trigger = triggerMonitor.getTrigger();
             if (trigger != null) {
-                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+                schedulerMonitor.getScheduler().rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
             } else {
-                scheduler.scheduleJob(newTrigger);
+                schedulerMonitor.getScheduler().scheduleJob(newTrigger);
             }
             triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {
@@ -79,10 +82,11 @@ public class JobsConfigServiceQrtz {
         }
     }
 
+    @Override
     public void minuteConfig(
             MinuteDTO minuteDTO,
-            Scheduler scheduler,
-            JobDetail jobDetail,
+            SchedulerMonitor schedulerMonitor,
+            JobDetailMonitor jobDetailMonitor,
             TriggerMonitor triggerMonitor) {
 
         log.info("SCHEDULER - SECOND CONFIG COMMAND");
@@ -93,15 +97,15 @@ public class JobsConfigServiceQrtz {
                         .withIntervalInMinutes(minuteDTO.getMinute())
                         .withMisfireHandlingInstructionNextWithRemainingCount()
                         .repeatForever())
-                .forJob(jobDetail.getKey())
+                .forJob(jobDetailMonitor.getJob().getKey())
                 .build();
 
         try {
             Trigger trigger = triggerMonitor.getTrigger();
             if (trigger != null) {
-                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+                schedulerMonitor.getScheduler().rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
             } else {
-                scheduler.scheduleJob(newTrigger);
+                schedulerMonitor.getScheduler().scheduleJob(newTrigger);
             }
             triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {
@@ -109,10 +113,11 @@ public class JobsConfigServiceQrtz {
         }
     }
 
+    @Override
     public void secondConfig(
             SecondDTO secondDTO,
-            Scheduler scheduler,
-            JobDetail jobDetail,
+            SchedulerMonitor schedulerMonitor,
+            JobDetailMonitor jobDetailMonitor,
             TriggerMonitor triggerMonitor) {
 
         log.info("SCHEDULER - SECOND CONFIG COMMAND");
@@ -123,15 +128,15 @@ public class JobsConfigServiceQrtz {
                         .withIntervalInSeconds(secondDTO.getSecond())
                         .withMisfireHandlingInstructionNextWithRemainingCount()
                         .repeatForever())
-                .forJob(jobDetail.getKey())
+                .forJob(jobDetailMonitor.getJob().getKey())
                 .build();
 
         try {
             Trigger trigger = triggerMonitor.getTrigger();
             if (trigger != null) {
-                scheduler.rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
+                schedulerMonitor.getScheduler().rescheduleJob(triggerMonitor.getTrigger().getKey(), newTrigger);
             } else {
-                scheduler.scheduleJob(newTrigger);
+                schedulerMonitor.getScheduler().scheduleJob(newTrigger);
             }
             triggerMonitor.setTrigger(newTrigger);
         } catch (SchedulerException e) {

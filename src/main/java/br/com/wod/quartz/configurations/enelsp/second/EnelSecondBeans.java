@@ -11,5 +11,7 @@ public class EnelSecondBeans {
 
     public static final String JOB_ENELSP_SECOND_MONITOR = "enelsp_second_job_monitor";
 
+    public static final String SCHEDULER_ENELSP_SECOND_MONITOR = "enelsp_second_scheduler_monitor";
+
 
 }

@@ -2,10 +2,13 @@ package br.com.wod.quartz.configurations.enelsp.second;
 
 import br.com.wod.quartz.common.schedule.AutowiringSpringBeanJobFactory;
 import br.com.wod.quartz.core.adapters.JobDetailMonitor;
+import br.com.wod.quartz.core.adapters.SchedulerMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
 import br.com.wod.quartz.infrastructure.providers.JobDetailMonitorImpl;
+import br.com.wod.quartz.infrastructure.providers.SchedulerMonitorImpl;
 import br.com.wod.quartz.infrastructure.providers.TriggerMonitorImpl;
 import org.quartz.JobDetail;
+import org.quartz.Scheduler;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +48,7 @@ public class EnelSpSecondJobConfig {
 
     @Bean(JOB_ENELSP_SECOND_MONITOR)
     public JobDetailMonitor createJobMonitor(
-            @Qualifier(JOB_CPFL_FIRST) JobDetail jobDetail
+            @Qualifier(JOB_ENELSP_SECOND) JobDetail jobDetail
     ) {
         JobDetailMonitor jobDetailMonitor = new JobDetailMonitorImpl();
         jobDetailMonitor.setJob(jobDetail);
@@ -76,6 +79,15 @@ public class EnelSpSecondJobConfig {
         AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
         jobFactory.setApplicationContext(applicationContext);
         return jobFactory;
+    }
+
+    @Bean(name = SCHEDULER_ENELSP_SECOND_MONITOR)
+    public SchedulerMonitor schedulerMonitor(
+            @Qualifier(value = SCHED_ENELSP_SECOND)Scheduler scheduler
+    ) {
+        SchedulerMonitor schedulerMonitor = new SchedulerMonitorImpl();
+        schedulerMonitor.setScheduler(scheduler);
+        return schedulerMonitor;
     }
 
 }

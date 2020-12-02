@@ -6,6 +6,8 @@ import br.com.wod.quartz.api.dto.time.DailyDTO;
 import br.com.wod.quartz.api.dto.time.HourDTO;
 import br.com.wod.quartz.api.dto.time.MinuteDTO;
 import br.com.wod.quartz.api.dto.time.SecondDTO;
+import br.com.wod.quartz.core.adapters.JobDetailMonitor;
+import br.com.wod.quartz.core.adapters.SchedulerMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
 import br.com.wod.quartz.core.usecases.JobsConfigServiceQrtz;
 import br.com.wod.quartz.core.usecases.JobsInfoServiceQrtz;
@@ -33,6 +35,15 @@ public class EnelSpSecondJobFacade {
     @Autowired
     @Qualifier(TRIGGER_MONITOR_ENELSP_SECOND)
     private TriggerMonitor triggerMonitor;
+
+    @Autowired
+    @Qualifier(SCHEDULER_ENELSP_SECOND_MONITOR)
+    private SchedulerMonitor schedulerMonitor;
+
+    @Autowired
+    @Qualifier(JOB_ENELSP_SECOND_MONITOR)
+    private JobDetailMonitor jobDetailMonitor;
+
 
     @Autowired
     private JobsPlayerServiceQrtz playerService;
@@ -68,19 +79,19 @@ public class EnelSpSecondJobFacade {
     }
 
     public void dailyJobConfig(DailyDTO dailyDTO) {
-        configService.dailyConfig(dailyDTO, scheduler, jobDetail, triggerMonitor);
+        configService.dailyConfig(dailyDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
     }
 
     public void hourJobConfig(HourDTO hourDTO) {
-        configService.hourConfig(hourDTO, scheduler, jobDetail, triggerMonitor);
+        configService.hourConfig(hourDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
     }
 
     public void minuteJobConfig(MinuteDTO minuteDTO) {
-        configService.minuteConfig(minuteDTO, scheduler, jobDetail, triggerMonitor);
+        configService.minuteConfig(minuteDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
     }
 
     public void secondJobConfig(SecondDTO secondDTO) {
-        configService.secondConfig(secondDTO, scheduler, jobDetail, triggerMonitor);
+        configService.secondConfig(secondDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
     }
 
 }
