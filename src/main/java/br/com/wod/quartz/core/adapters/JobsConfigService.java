@@ -1,4 +1,4 @@
-package br.com.wod.quartz.core.usecases;
+package br.com.wod.quartz.core.adapters;
 
 import br.com.wod.quartz.api.dto.time.DailyDTO;
 import br.com.wod.quartz.api.dto.time.HourDTO;

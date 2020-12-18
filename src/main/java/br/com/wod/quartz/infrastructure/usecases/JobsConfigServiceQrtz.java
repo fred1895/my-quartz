@@ -1,4 +1,4 @@
-package br.com.wod.quartz.core.usecases;
+package br.com.wod.quartz.infrastructure.usecases;
 
 import br.com.wod.quartz.api.dto.time.DailyDTO;
 import br.com.wod.quartz.api.dto.time.HourDTO;
@@ -6,6 +6,7 @@ import br.com.wod.quartz.api.dto.time.MinuteDTO;
 import br.com.wod.quartz.api.dto.time.SecondDTO;
 import br.com.wod.quartz.api.exception.MySchedulerException;
 import br.com.wod.quartz.core.adapters.JobDetailMonitor;
+import br.com.wod.quartz.core.adapters.JobsConfigService;
 import br.com.wod.quartz.core.adapters.SchedulerMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 @Service
 @Slf4j
-public class JobsConfigServiceQrtz implements JobsConfigService{
+public class JobsConfigServiceQrtz implements JobsConfigService {
 
     @Value("${error.myscheduler.msg}")
     private String errorMsg;

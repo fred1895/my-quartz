@@ -7,6 +7,7 @@ import br.com.wod.quartz.core.adapters.TriggerMonitor;
 import br.com.wod.quartz.infrastructure.providers.JobDetailMonitorImpl;
 import br.com.wod.quartz.infrastructure.providers.SchedulerMonitorImpl;
 import br.com.wod.quartz.infrastructure.providers.TriggerMonitorImpl;
+import br.com.wod.quartz.infrastructure.usecases.JobsConfigTest;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.spi.JobFactory;
@@ -87,6 +88,15 @@ public class CpflFirstJobConfig {
         AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
         jobFactory.setApplicationContext(applicationContext);
         return jobFactory;
+    }
+
+    @Bean(name = "first_job_service")
+    public JobsConfigTest jobsConfigTest(
+            @Qualifier(value = "scheduler_monitor") SchedulerMonitor schedulerMonitor,
+            @Qualifier(value = "job_monitor") JobDetailMonitor jobDetailMonitor,
+            @Qualifier(value = TRIGGER_MONITOR_CPFL_FIRST) TriggerMonitor triggerMonitor
+    ) {
+        return new JobsConfigTest(schedulerMonitor, jobDetailMonitor, triggerMonitor);
     }
 
 }

@@ -9,7 +9,7 @@ import br.com.wod.quartz.api.dto.time.SecondDTO;
 import br.com.wod.quartz.core.adapters.JobDetailMonitor;
 import br.com.wod.quartz.core.adapters.SchedulerMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
-import br.com.wod.quartz.core.usecases.*;
+import br.com.wod.quartz.infrastructure.usecases.*;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;

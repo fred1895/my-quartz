@@ -1,11 +1,10 @@
-package br.com.wod.quartz.core.usecases;
+package br.com.wod.quartz.infrastructure.usecases;
 
 import br.com.wod.quartz.api.dto.enums.SchedulerStates;
 import br.com.wod.quartz.api.dto.jobinfo.JobStatus;
 import br.com.wod.quartz.api.dto.jobinfo.QrtzJobDetailsDTO;
 import br.com.wod.quartz.api.dto.jobinfo.QrtzTriggersDTO;
 import br.com.wod.quartz.api.exception.MySchedulerException;
-import br.com.wod.quartz.core.adapters.JobDetailMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;

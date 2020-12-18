@@ -9,9 +9,10 @@ import br.com.wod.quartz.api.dto.time.SecondDTO;
 import br.com.wod.quartz.core.adapters.JobDetailMonitor;
 import br.com.wod.quartz.core.adapters.SchedulerMonitor;
 import br.com.wod.quartz.core.adapters.TriggerMonitor;
-import br.com.wod.quartz.core.usecases.JobsConfigServiceQrtz;
-import br.com.wod.quartz.core.usecases.JobsInfoServiceQrtz;
-import br.com.wod.quartz.core.usecases.JobsPlayerServiceQrtz;
+import br.com.wod.quartz.infrastructure.usecases.JobsConfigServiceQrtz;
+import br.com.wod.quartz.infrastructure.usecases.JobsConfigTest;
+import br.com.wod.quartz.infrastructure.usecases.JobsInfoServiceQrtz;
+import br.com.wod.quartz.infrastructure.usecases.JobsPlayerServiceQrtz;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -52,7 +53,8 @@ public class CpflFirstJobFacade {
     private JobsInfoServiceQrtz infoService;
 
     @Autowired
-    private JobsConfigServiceQrtz configService;
+    @Qualifier(value = "first_job_service")
+    private JobsConfigTest configService;
 
     public void startJob() {
         playerService.start(scheduler, jobDetail, triggerMonitor);
@@ -79,19 +81,19 @@ public class CpflFirstJobFacade {
     }
 
     public void dailyJobConfig(DailyDTO dailyDTO) {
-        configService.dailyConfig(dailyDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.dailyConfig(dailyDTO);
     }
 
     public void hourJobConfig(HourDTO hourDTO) {
-        configService.hourConfig(hourDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.hourConfig(hourDTO);
     }
 
     public void minuteJobConfig(MinuteDTO minuteDTO) {
-        configService.minuteConfig(minuteDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.minuteConfig(minuteDTO);
     }
 
     public void secondJobConfig(SecondDTO secondDTO) {
-        configService.secondConfig(secondDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.secondConfig(secondDTO);
     }
 
 }

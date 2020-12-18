@@ -1,6 +1,5 @@
-package br.com.wod.quartz.core.usecases;
+package br.com.wod.quartz.infrastructure.usecases;
 
-import br.com.wod.quartz.core.adapters.JobDetailMonitor;
 import br.com.wod.quartz.core.entities.QrtzTriggers;
 import br.com.wod.quartz.infrastructure.repositories.JobsDetailsRepository;
 import br.com.wod.quartz.infrastructure.repositories.TriggersRepository;

@@ -28,14 +28,4 @@ public class SchedulerConfigUtil {
         return jobDetail;
     }
 
-    public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail) {
-        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-        factoryBean.setJobDetail(jobDetail);
-        factoryBean.setStartDelay(2000L);
-        factoryBean.setRepeatInterval(10000L);
-        factoryBean
-                .setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
-        return factoryBean;
-    }
-
 }
