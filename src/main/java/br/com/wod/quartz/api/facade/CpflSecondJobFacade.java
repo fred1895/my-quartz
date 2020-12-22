@@ -6,92 +6,70 @@ import br.com.wod.quartz.api.dto.time.DailyDTO;
 import br.com.wod.quartz.api.dto.time.HourDTO;
 import br.com.wod.quartz.api.dto.time.MinuteDTO;
 import br.com.wod.quartz.api.dto.time.SecondDTO;
-import br.com.wod.quartz.core.adapters.JobDetailMonitor;
-import br.com.wod.quartz.core.adapters.SchedulerMonitor;
-import br.com.wod.quartz.core.adapters.TriggerMonitor;
-import br.com.wod.quartz.infrastructure.usecases.JobsConfigServiceQrtz;
-import br.com.wod.quartz.infrastructure.usecases.JobsInfoServiceQrtz;
-import br.com.wod.quartz.infrastructure.usecases.JobsPlayerServiceQrtz;
+import br.com.wod.quartz.core.adapters.IJobsConfigService;
+import br.com.wod.quartz.core.adapters.IJobsInfoService;
+import br.com.wod.quartz.core.adapters.IJobsPlayerService;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import static br.com.wod.quartz.configurations.cpfl.second.CpflSecondBeans.*;
+import static br.com.wod.quartz.application.cpfl.second.CpflSecondBeans.*;
 
 @Service
 @Slf4j
 public class CpflSecondJobFacade {
 
     @Autowired
-    @Qualifier(SCHED_CPFL_SECOND)
-    private Scheduler scheduler;
+    @Qualifier(value = PLAYER_CPFL_SECOND)
+    private IJobsPlayerService playerService;
 
     @Autowired
-    @Qualifier(JOB_CPFL_SECOND)
-    private JobDetail jobDetail;
+    @Qualifier(value = CONFIG_CPFL_SECOND)
+    private IJobsConfigService configService;
 
     @Autowired
-    @Qualifier("job_monitor_second")
-    private JobDetailMonitor jobDetailMonitor;
-
-    @Autowired
-    @Qualifier("scheduler_monitor_second")
-    private SchedulerMonitor schedulerMonitor;
-
-    @Autowired
-    @Qualifier(TRIGGER_MONITOR_CPFL_SECOND)
-    private TriggerMonitor triggerMonitor;
-
-    @Autowired
-    private JobsPlayerServiceQrtz playerService;
-
-    @Autowired
-    private JobsInfoServiceQrtz infoService;
-
-    @Autowired
-    private JobsConfigServiceQrtz configService;
+    @Qualifier(value = INFO_CPFL_SECOND)
+    private IJobsInfoService infoService;
 
     public void startJob() {
-        playerService.start(scheduler, jobDetail, triggerMonitor);
+        playerService.start();
     }
 
     public QrtzJobDetailsDTO getJobInfo() {
-        return infoService.getJobInfo(scheduler, jobDetail);
+        return infoService.getJobInfo();
     }
 
     public QrtzTriggersDTO getTriggerInfo() {
-        return infoService.getTriggerInfo(scheduler, triggerMonitor);
+        return infoService.getTriggerInfo();
     }
 
     public void resumeJob() {
-        playerService.resume(scheduler);
+        playerService.resume();
     }
 
     public void pauseJob() {
-        playerService.pause(scheduler);
+        playerService.pause();
     }
 
     public void deleteJob() {
-        playerService.delete(scheduler, jobDetail);
+        playerService.delete();
     }
 
     public void dailyJobConfig(DailyDTO dailyDTO) {
-        configService.dailyConfig(dailyDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.dailyConfig(dailyDTO);
     }
 
     public void hourJobConfig(HourDTO hourDTO) {
-        configService.hourConfig(hourDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.hourConfig(hourDTO);
     }
 
     public void minuteJobConfig(MinuteDTO minuteDTO) {
-        configService.minuteConfig(minuteDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.minuteConfig(minuteDTO);
     }
 
     public void secondJobConfig(SecondDTO secondDTO) {
-        configService.secondConfig(secondDTO, schedulerMonitor, jobDetailMonitor, triggerMonitor);
+        configService.secondConfig(secondDTO);
     }
 
 }
